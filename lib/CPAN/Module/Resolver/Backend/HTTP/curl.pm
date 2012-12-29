@@ -2,9 +2,26 @@ use strict;
 use warnings;
 
 package CPAN::Module::Resolver::Backend::HTTP::curl;
+# ABSTRACT: Adapter for CPAN::Module::Resolver to use C<curl>
+
+=head1 DESCRIPTION
+
+This is merely a backend implementation for L<< C<CPAN::Module::Resolver>|CPAN::Module::Resolver >>, 
+via implementing the role L<< C<CPAN::Module::Resolver::Role::HTTPBackend>|CPAN::Module::Resolver::Role::HTTPBackend >>.
+
+It acts to provide a unified interface for requesting data, and uses the C<curl> commandline utility to provide this feature.
+
+See the documentation for L<< C<CPAN::Module::Resolver::Role::HTTPBackend>|CPAN::Module::Resolver::Role::HTTPBackend >> for direct usage details.
+
+=cut
+
+=head1 CREDITS
+
+Logic stolen from L<< C<cpanm>|App::cpanminus >>, by L<< Tatsuhiko Miyagawa|https://metacpan.org/author/MIYAGAWA >>
+
+=cut
 
 use Moo;
-use Config;
 
 with 'CPAN::Module::Resolver::Role::HTTPBackend';
 with 'CPAN::Module::Resolver::Role::ShellBackend';

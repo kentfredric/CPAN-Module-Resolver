@@ -2,16 +2,35 @@ use strict;
 use warnings;
 
 package CPAN::Module::Resolver::Role::ShellBackend;
+
+# ABSTRACT: Utility functions used by backends that rely on external processes.
+
+=head1 CREDITS
+
+Logic stolen from L<< C<cpanm>|App::cpanminus >>, by L<< Tatsuhiko Miyagawa|https://metacpan.org/author/MIYAGAWA >>
+
+=cut
+
 use Moo::Role;
+use Config;
 use constant WIN32 => $^O eq 'MSWin32';
 
 my $quote = ( WIN32 ? q/"/ : q/'/ );
+
+=pmethod _shell_quote
+
+	my $quoted = $self->_shell_quote( $stuff );
+=cut
 
 sub _shell_quote {
     my ( $self, $stuff ) = @_;
     $stuff =~ /^${quote}.+${quote}$/ ? $stuff : ( $quote . $stuff . $quote );
 }
+=pmethod _which
 
+	my $path = $self->_which('wget');
+
+=cut
 sub _which {
     my ( $self, $name ) = @_;
     require File::Spec;
@@ -27,6 +46,13 @@ sub _which {
     }
     return;
 }
+=pmethod _safeexec
+
+	$self->_safeexec( my $fh, 'wget', @args_for_wget ) or die "Bad things! $!";
+	local $/;
+	print scalar <$fh>;
+
+=cut
 
 sub _safeexec {
     my $self = shift;
@@ -50,11 +76,27 @@ sub _safeexec {
     }
 }
 
+=pmethod _file_get
+
+Dispatch via a file on disk, not via web call
+
+	my $content = $self->_file_get($path_to_file);
+
+=cut
+
 sub _file_get {
     my ( $self, $uri ) = @_;
     open my $fh, '<', $uri or return;
     return join '', <$fh>;
 }
+
+=pmethod _file_mirror
+
+Mirror a file on disk, not via a web call
+
+	$self->_file_mirror( $src, $dest );
+
+=cut
 
 sub _file_mirror {
     my ( $self, $uri, $path ) = @_;

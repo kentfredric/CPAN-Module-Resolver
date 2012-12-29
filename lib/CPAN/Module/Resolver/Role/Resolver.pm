@@ -4,61 +4,120 @@ use warnings;
 
 package CPAN::Module::Resolver::Role::Resolver;
 
+# ABSTRACT: An interface for module resolving for CPAN::Module::Resolver
+
 use Moo::Role;
 
-has resolver => ( is => rwp => required => 1 );
+=head1 DESCRIPTION
 
-sub backend_http { $_[0]->resolver->backend_http };
-sub mirrors { $_[0]->resolver->mirrors };
+	my $resolver = SomeResolver->new(
+		_backend_get => sub { },
+		_backend_mirror => sub { },
+	);
+	return unless $resolver->usable();
+	my $result = $resolver->resolve('Moo::Role');
+	if( $result ){ 
+		Data::Dump::pp( $result->as_hash );
+	}
+
+
+=carg _backend_get
+
+Must be a C<CODEREF> that returns a string when given a URI.
+
+	->new(
+		_backend_get => sub { 
+			my ( $uri ) = @_; 
+			...
+			return $string;
+		},
+		...
+	);
+
+=pattr _backend_get
+
+=cut
+
+has _backend_get    => ( is => rwp => required => 1 );
+
+=carg _backend_mirror
+
+Must be a C<CODEREF> that copies a given URI to the specified local path.
+
+	->new(
+		_backend_mirror => sub { 
+			my ( $uri , $dest ) = @_; 
+			...
+			return 1;
+		},
+		...
+	);
+
+
+=pattr _backend_mirror
+
+=cut
+
+has _backend_mirror => ( is => rwp => required => 1 );
+
+=rrequire resolve
+
+
+	$backend->resolve( $module )->isa('CPAN::Module::Resolver::Result')
+
+=over 4 
+
+=item * Must take a single argument, module name
+
+=item * must return a L<<< C<< CPAN::Module::Resolver::B<Result> >> object|CPAN::Module::Resolver::Result >>>
+
+=back
+
+
+=rrequire usable
+	
+	$backend->usable();
+
+=over 4
+
+=item * takes no arguments
+
+=item * must return true( defined nonzero ) or false( zero or undef )
+
+=back
+
+=cut
 
 requires resolve =>;
+requires usable  =>;
 
-sub usable {
-  return $_[0]->backend_http->usable();
-}
+=method get
+
+	$self->get( $uri );
+
+Convenience method to call accessor-stored coderef in C<_backend_get>
+
+=method mirror
+
+	$self->mirror( $uri, $path );
+
+Convenience method to call accessor-stored coderef in C<_backend_mirror>
+
+=cut
+
+sub get { my $self = shift; $self->_backend_get->( @_ )}
+sub mirror { my $self = shift; $self->_backend_mirror->( @_ ) }
+
+=pmethod _parse_meta_string
+
+	
+
+=cut
 
 sub _parse_meta_string {
   my ( $self, $string ) = @_;
   require Parse::CPAN::Meta;
   return eval { ( Parse::CPAN::Meta::Load($string) )[0] } || undef;
 }
-
-sub _cpan_dist {
-  my ( $self, $dist, $url ) = @_;
-
-  $dist =~ s!^([A-Z]{3})!substr($1,0,1)."/".substr($1,0,2)."/".$1!e;
-
-  require CPAN::DistnameInfo;
-  my $d = CPAN::DistnameInfo->new($dist);
-
-  if ($url) {
-    $url = [$url] unless ref $url eq 'ARRAY';
-  }
-  else {
-    my $id = $d->cpanid;
-    my $fn = substr( $id, 0, 1 ) . "/" . substr( $id, 0, 2 ) . "/" . $id . "/" . $d->filename;
-
-    my @mirrors = @{ $self->mirrors };
-    my @urls = map "$_/authors/id/$fn", @mirrors;
-
-    $url = \@urls,;
-  }
-
-  return {
-    $d->properties,
-    source => 'cpan',
-    uris   => $url,
-  };
-}
-
-sub _cpan_module {
-  my ( $self, $module, $dist, $version ) = @_;
-  my $dist_obj = $self->_cpan_dist($dist);
-  $dist_obj->{module} = $module;
-  $dist_obj->{module_version} = $version if $version && $version ne 'undef';
-  return $dist_obj;
-}
-
-
 
 1;
