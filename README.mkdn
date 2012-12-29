@@ -4,7 +4,7 @@ CPAN::Module::Resolver - Resolve module names to the dists they are contained in
 
 # VERSION
 
-version 0.1.0
+version 0.00100
 
 # DESCRIPTION
 
@@ -17,7 +17,7 @@ This module simply aims to unify all the different ways of doing it via one simp
 	my $resolver = CPAN::Module::Resolver->new();
 	my $result   = $resolver->resolve('Moose');
 
-	for my $uri ( @{ $result->{uris} } ){
+	for my $uri ( $result->uris  ){
 		print "$uri\n";
 	}
 
@@ -28,12 +28,12 @@ And this does a many things automatically to make life easier:
     - wget
     - curl
     - HTTP::Tiny
-- Automatically uses available web services to query the results, using one of 
+- Automatically uses available web services to query the results, using one of
     - cpanmetadb
     - metacpan api
     - searching search.cpan.org
 
-And additionally, you can choose which HTTP backend to use, and which query interface to call. 
+And additionally, you can choose which HTTP backend to use, and which query interface to call.
 
 	my $resolver = CPAN::Module::Resolver->new(
 		backend_http_order    => [qw( LWP wget curl fake )],   						# uses the first one that works
