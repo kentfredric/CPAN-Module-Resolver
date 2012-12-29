@@ -38,7 +38,7 @@ And this does a many things automatically to make life easier:
 
 =back
 
-=item * Automatically uses available web services to query the results, using one of 
+=item * Automatically uses available web services to query the results, using one of
 
 =over 6
 
@@ -52,13 +52,13 @@ And this does a many things automatically to make life easier:
 
 =back
 
-And additionally, you can choose which HTTP backend to use, and which query interface to call. 
+And additionally, you can choose which HTTP backend to use, and which query interface to call.
 
 	my $resolver = CPAN::Module::Resolver->new(
 		backend_http_order    => [qw( LWP wget curl fake )],   						# uses the first one that works
 		backend_resolve_order => [qw( metacpan cpanmetadb search_cpan_org )],		# uses first successful result.
 	);
-	
+
 
 Most the code at present is stolen from bits of the ever popular L<< C<cpanm>|App::cpanminus >>
 

@@ -16,7 +16,7 @@ use Moo::Role;
 	);
 	return unless $resolver->usable();
 	my $result = $resolver->resolve('Moo::Role');
-	if( $result ){ 
+	if( $result ){
 		Data::Dump::pp( $result->as_hash );
 	}
 
@@ -26,8 +26,8 @@ use Moo::Role;
 Must be a C<CODEREF> that returns a string when given a URI.
 
 	->new(
-		_backend_get => sub { 
-			my ( $uri ) = @_; 
+		_backend_get => sub {
+			my ( $uri ) = @_;
 			...
 			return $string;
 		},
@@ -45,8 +45,8 @@ has _backend_get => ( is => rwp => required => 1 );
 Must be a C<CODEREF> that copies a given URI to the specified local path.
 
 	->new(
-		_backend_mirror => sub { 
-			my ( $uri , $dest ) = @_; 
+		_backend_mirror => sub {
+			my ( $uri , $dest ) = @_;
 			...
 			return 1;
 		},
@@ -65,7 +65,7 @@ has _backend_mirror => ( is => rwp => required => 1 );
 
 	$backend->resolve( $module )->isa('CPAN::Module::Resolver::Result')
 
-=over 4 
+=over 4
 
 =item * Must take a single argument, module name
 
@@ -75,7 +75,7 @@ has _backend_mirror => ( is => rwp => required => 1 );
 
 
 =rrequire usable
-	
+
 	$backend->usable();
 
 =over 4

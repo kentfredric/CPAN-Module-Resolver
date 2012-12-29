@@ -7,7 +7,7 @@ package CPAN::Module::Resolver::Backend::Resolver::cpanmetadb;
 
 =head1 DESCRIPTION
 
-This is merely a backend implementation for L<< C<CPAN::Module::Resolver>|CPAN::Module::Resolver >>, 
+This is merely a backend implementation for L<< C<CPAN::Module::Resolver>|CPAN::Module::Resolver >>,
 via implementing the role L<< C<CPAN::Module::Resolver::Role::Resolver>|CPAN::Module::Resolver::Role::Resolver >>.
 
 It queries the "cpanmetadb" ( L<< B<cpanmetadb.plackperl.org>|http://cpanmetadb.plackperl.org/ >> ).

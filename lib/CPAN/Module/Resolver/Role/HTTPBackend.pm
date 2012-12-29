@@ -47,7 +47,7 @@ Mirror a URL to disk
 
 =back
 
-	if( Backend->new()->mirror( $url, $target ) ){ 
+	if( Backend->new()->mirror( $url, $target ) ){
 		 # do stuff with $target
 	}
 
@@ -65,8 +65,8 @@ Determine if the backend is usable or not.
 
 =back
 
-	if( Backend()->new()->usable() ) { 
-		# code 
+	if( Backend()->new()->usable() ) {
+		# code
 	}
 
 =cut

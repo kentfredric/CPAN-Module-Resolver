@@ -97,7 +97,7 @@ Returns the argument specified via C<< ->new( dist => >>
 
 =carg dist
 
-A distribution name in either the form 
+A distribution name in either the form
 
 	A/AA/AAARGUMENTS/Foo-1.2.3.tar.gz
 
@@ -106,11 +106,11 @@ or
 	AAARGUMENTS/Foo-1.2.3.tar.gz
 
 
-=pmethod _uris 
+=pmethod _uris
 
 An Array of URI's this distribution can be found at.
 
-( Expanded with C<_mirrors> ) 
+( Expanded with C<_mirrors> )
 
 =carg uris
 
@@ -124,7 +124,7 @@ ie:
 		uris => [ 'path/to/foo.tar.gz' ],
 	);
 
-=pmethod _mirrors 
+=pmethod _mirrors
 
 An array of CPAN Mirrors to use for URI generation.
 
@@ -138,7 +138,7 @@ ie:
 		mirrors => [ 'www.cpan.org', 'cpan.metacpan.org' ]
 	);
 
-=pmethod _distname_info 
+=pmethod _distname_info
 
 =cut
 
@@ -166,7 +166,7 @@ sub uris   { @{ $_[0]->_uris } }
 =pmethod _build__mirrors
 
 	['http://www.cpan.org']
-	
+
 =cut
 
 sub _build__mirrors { return ['http://www.cpan.org'] }
