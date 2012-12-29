@@ -38,7 +38,7 @@ sub resolve {
 
   my $html = $self->_module_html($modname);
   return unless $html;
-  if ( $html =~ m!<a href="/CPAN/authors/id/(.*?\.(?:tar\.gz|tgz|tar\.bz2|zip))">! ) {
+  if ( $html =~ m!<a href="/CPAN/authors/id/(.*?[.](?:tar[.]gz|tgz|tar[.]bz2|zip))">! ) {
     return $self->_cpan_module( $modname, $1 );
   }
   return;

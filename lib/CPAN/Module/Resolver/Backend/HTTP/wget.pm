@@ -36,16 +36,17 @@ has wget_mirror_flags => ( is => lazy => );
 sub usable                { return defined $_[0]->_which('wget') }
 sub _build_wget_path      { return $_[0]->_which('wget') }
 sub _build_verbose        { 0 }
-sub _build_wget_get_flags { return [ ( $_[0]->verbose ? () : '-q' ) ] }
+sub _build_wget_get_flags { return [ ( $_[0]->verbose ? () : q{-q} ) ] }
+sub _croak { require Carp; goto &Carp::croak }
 
 sub _build_wget_mirror_flags {
-  return [ '--retry-connrefused', ( $_[0]->verbose ? () : '-q' ) ];
+  return [ q{--retry-connrefused}, ( $_[0]->verbose ? () : q{-q} ) ];
 }
 
 sub _wget {
   my ( $self, @wget_args ) = @_;
   $self->_safeexec( my $fh, $self->wget_path, @wget_args )
-    or die "wget @wget_args : $!";
+    or _croak "wget @wget_args : $!";
   local $/;
   return <$fh>;
 
@@ -54,13 +55,13 @@ sub _wget {
 sub get {
   my ( $self, $uri ) = @_;
   return $self->_file_get($uri) if $uri =~ s!^file:/+!/!;
-  return $self->_wget( $uri, @{ $self->wget_get_flags }, '-O', '-' );
+  return $self->_wget( $uri, @{ $self->wget_get_flags }, qw( -O  - ) );
 }
 
 sub mirror {
   my ( $self, $uri, $path ) = @_;
   return $self->_file_mirror( $uri, $path ) if $uri =~ s!^file:/+!/!;
-  return $self->_wget( $uri, @{ $self->wget_mirror_flags }, '-O', $path );
+  return $self->_wget( $uri, @{ $self->wget_mirror_flags }, q{-O}, $path );
 }
 
 1;

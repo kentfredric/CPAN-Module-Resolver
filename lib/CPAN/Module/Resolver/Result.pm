@@ -7,7 +7,7 @@ package CPAN::Module::Resolver::Result;
 
 =head1 DESCRIPTION
 
-This is mostly a proxy wrapper around L<CPAN::DistnameInfo>, with a few utility functions and extra fields.
+This is mostly a proxy wrapper around L<< C<CPAN::DistnameInfo>|CPAN::DistnameInfo >>, with a few utility functions and extra fields.
 
 	my $result = CPAN::Module::Resolver::Result->new( module => "Moose", dist => "D/DO/DOY/Moose-2.0604.tar.gz" , version => "2.0604" );
 	Data::Dump::pp( $result->as_hash() );
@@ -178,7 +178,7 @@ sub _build__mirrors { return ['http://www.cpan.org'] }
 sub _build__uris {
   my $self = shift;
   my $id   = $self->cpanid;
-  my $fn   = substr( $id, 0, 1 ) . "/" . substr( $id, 0, 2 ) . "/" . $id . "/" . $self->filename;
+  my $fn   = sprintf '%s/%s/%s/%s', substr( $id, 0, 1 ), substr( $id, 0, 2 ), $id, $self->filename;
   return [ map { "$_/authors/id/$fn" } @{ $self->_mirrors } ];
 }
 
@@ -200,7 +200,7 @@ sub _expand_authorpath {
 sub _build__distname_info {
   my $self = shift;
   my $dist = $self->_dist;
-  $dist = _expand_authorpath($dist) if $dist =~ /^[A-Z]{3}/;
+  $dist = _expand_authorpath($dist) if $dist =~ /^[[:upper:]]{3}/;
   require CPAN::DistnameInfo;
   return CPAN::DistnameInfo->new($dist);
 }
@@ -213,7 +213,7 @@ Returns all useful properties as values in an hash
 
 sub as_hash {
   my $self = shift;
-  return { ( map { $_, $self->$_() } @_distname_info_properties ), ( map { $_, $self->$_() } @_own_properties ), };
+  return { ( map { ( $_, $self->$_() ) } @_distname_info_properties ), ( map { ( $_, $self->$_() ) } @_own_properties ), };
 }
 
 1;

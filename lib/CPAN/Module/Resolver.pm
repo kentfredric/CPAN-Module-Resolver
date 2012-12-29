@@ -90,7 +90,7 @@ sub _load_backend {
     return $modname;
   }
   catch {
-    _carpf( "'%s' backend %s failed to load, trying next\n\n%s\n\n", $suffix, $backend, $_ );
+    _carpf( qq{'%s' backend %s failed to load, trying next\n\n%s\n\n}, $suffix, $backend, $_ );
     return;
   };
 }
@@ -101,7 +101,7 @@ sub _usable_backend {
   return unless $modname;
   my $instance = $modname->new( @{$cargs} );
   if ( not $instance->usable() ) {
-    _carpf( "'%s' backend %s unusable, trying next", $suffix, $backend, $modname );
+    _carpf( q{'%s' backend %s unusable, trying next}, $suffix, $backend, $modname );
     return;
   }
   return $instance;
@@ -115,7 +115,7 @@ sub _build_backend_http {
     next unless $instance;
     return $instance;
   }
-  _croak("None of the specified backends were loadable/useable");
+  _croak(q{None of the specified backends were loadable/useable});
 }
 
 sub resolve {
@@ -131,12 +131,12 @@ sub resolve {
     );
     my $result = $instance->resolve($module);
     if ( not $result ) {
-      _carpf( "'resolver' backend %s got no result trying next", $backend );
+      _carpf( q{'resolver' backend %s got no result trying next}, $backend );
       next;
     }
     return $result;
   }
-  _carp("None of the specified backends returned a result");
+  _carp(q{None of the specified backends returned a result});
   return;
 
 }

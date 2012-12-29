@@ -35,13 +35,14 @@ has curl_mirror_flags => ( is => lazy => );
 sub usable                   { return defined $_[0]->_which('curl') }
 sub _build_curl_path         { return $_[0]->_which('curl') }
 sub _build_verbose           { 0 }
-sub _build_curl_get_flags    { return [ '-L', ( $_[0]->verbose ? () : '-s' ) ] }
-sub _build_curl_mirror_flags { return [ '-L', ( $_[0]->verbose ? () : '-s' ), '-#', ], }
+sub _build_curl_get_flags    { return [ q{-L}, ( $_[0]->verbose ? () : q{-s} ) ] }
+sub _build_curl_mirror_flags { return [ q{-L}, ( $_[0]->verbose ? () : q{-s} ), q{-#}, ], }
+sub _croak { require Carp; goto &Carp::croak }
 
 sub _curl {
   my ( $self, @curlargs ) = @_;
   $self->_safeexec( my $fh, $self->curl_path, @curlargs )
-    or die "curl @curlargs: $!";
+    or _croak "curl @curlargs: $!";
   local $/;
   return <$fh>;
 }

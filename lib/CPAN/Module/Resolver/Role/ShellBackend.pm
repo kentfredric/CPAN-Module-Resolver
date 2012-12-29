@@ -63,15 +63,17 @@ sub _safeexec {
   my $rdr = $_[0] ||= Symbol::gensym();
 
   if (WIN32) {
+    ## no critic ( InputOutput::ProhibitTwoArgOpen InputOutput::RequireBriefOpen
     my $cmd = join q{ }, map { $self->_shell_quote($_) } @_[ 1 .. $#_ ];
-    return open( $rdr, "$cmd |" );
+    return ( open $rdr, qq{$cmd |} );
   }
 
-  if ( my $pid = open( $rdr, '-|' ) ) {
+  ## no critic ( InputOutput::RequireBriefOpen )
+  if ( my $pid = ( open $rdr, q{-|} ) ) {
     return $pid;
   }
   elsif ( defined $pid ) {
-    exec( @_[ 1 .. $#_ ] );
+    exec @_[ 1 .. $#_ ];
     exit 1;
   }
   else {
@@ -87,10 +89,12 @@ Dispatch via a file on disk, not via web call
 
 =cut
 
+## no critic ( InputOutput::RequireBriefOpen )
 sub _file_get {
   my ( $self, $uri ) = @_;
   open my $fh, '<', $uri or return;
-  return join '', <$fh>;
+  local $/;
+  return <$fh>;
 }
 
 =pmethod _file_mirror
@@ -107,3 +111,4 @@ sub _file_mirror {
   File::Copy::copy( $uri, $path );
 }
 
+1;

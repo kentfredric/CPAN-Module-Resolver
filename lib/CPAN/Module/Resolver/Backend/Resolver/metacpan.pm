@@ -72,4 +72,4 @@ sub resolve {
   );
 }
 
-return 1;
+1;
