@@ -38,7 +38,7 @@ Must be a C<CODEREF> that returns a string when given a URI.
 
 =cut
 
-has _backend_get    => ( is => rwp => required => 1 );
+has _backend_get => ( is => rwp => required => 1 );
 
 =carg _backend_mirror
 
@@ -105,8 +105,7 @@ Convenience method to call accessor-stored coderef in C<_backend_mirror>
 
 =cut
 
-sub get { my $self = shift; $self->_backend_get->( @_ )}
-sub mirror { my $self = shift; $self->_backend_mirror->( @_ ) }
-
+sub get    { my $self = shift; $self->_backend_get->(@_) }
+sub mirror { my $self = shift; $self->_backend_mirror->(@_) }
 
 1;

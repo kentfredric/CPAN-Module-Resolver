@@ -67,7 +67,6 @@ Most the code at present is stolen from bits of the ever popular L<< C<cpanm>|Ap
 use Moo;
 use Try::Tiny;
 
-
 has backend_resolve_order => ( is => lazy => );
 has backend_http_order    => ( is => lazy => );
 has backend_http          => ( is => lazy => );
@@ -82,38 +81,38 @@ sub _carp { require Carp; return Carp::carp(@_) }
 sub _carpf { my $format = shift; return _carp( sprintf $format, @_ ) }
 sub _croak { require Carp; return Carp::croak(@_) }
 
-
 sub _load_backend {
-	my ( $self, $suffix , $backend ) = @_; 
-	my $backend_group =  Module::Runtime::compose_module_name('CPAN::Module::Resolver::Backend', $suffix);
-	my $modname = Module::Runtime::compose_module_name($backend_group, $backend );
-	return try {
-		Module::Runtime::require_module($modname);
-		return $modname;
-	} catch { 
-		_carpf("'%s' backend %s failed to load, trying next\n\n%s\n\n", $suffix, $backend, $_ );
-		return;
-	};
+  my ( $self, $suffix, $backend ) = @_;
+  my $backend_group = Module::Runtime::compose_module_name( 'CPAN::Module::Resolver::Backend', $suffix );
+  my $modname = Module::Runtime::compose_module_name( $backend_group, $backend );
+  return try {
+    Module::Runtime::require_module($modname);
+    return $modname;
+  }
+  catch {
+    _carpf( "'%s' backend %s failed to load, trying next\n\n%s\n\n", $suffix, $backend, $_ );
+    return;
+  };
 }
 
 sub _usable_backend {
-	my ( $self,  $suffix, $backend, $cargs ) = @_ ; 
-	my $modname = $self->_load_backend( $suffix, $backend );
-	return unless $modname;
-	my $instance = $modname->new(@{$cargs});
-	if ( not $instance->usable() ){
-		_carpf( "'%s' backend %s unusable, trying next", $suffix, $backend, $modname );
-		return;
-	}
-	return $instance;
+  my ( $self, $suffix, $backend, $cargs ) = @_;
+  my $modname = $self->_load_backend( $suffix, $backend );
+  return unless $modname;
+  my $instance = $modname->new( @{$cargs} );
+  if ( not $instance->usable() ) {
+    _carpf( "'%s' backend %s unusable, trying next", $suffix, $backend, $modname );
+    return;
+  }
+  return $instance;
 }
 
 sub _build_backend_http {
   my ($self) = shift;
   require Module::Runtime;
   for my $backend ( @{ $self->backend_http_order } ) {
-	my $instance = $self->_usable_backend('HTTP', $backend, [] );
-	next unless $instance;
+    my $instance = $self->_usable_backend( 'HTTP', $backend, [] );
+    next unless $instance;
     return $instance;
   }
   _croak("None of the specified backends were loadable/useable");
@@ -122,14 +121,18 @@ sub _build_backend_http {
 sub resolve {
   my ( $self, $module ) = @_;
   for my $backend ( @{ $self->backend_resolve_order } ) {
-	my $instance = $self->_usable_backend( 'Resolver', $backend , [
-		_backend_get => sub { $self->backend_http->get( @_ ) },
-		_backend_mirror => sub { $self->backend_http->mirror( @_ ) },
-	]);
+    my $instance = $self->_usable_backend(
+      'Resolver',
+      $backend,
+      [
+        _backend_get    => sub { $self->backend_http->get(@_) },
+        _backend_mirror => sub { $self->backend_http->mirror(@_) },
+      ]
+    );
     my $result = $instance->resolve($module);
     if ( not $result ) {
       _carpf( "'resolver' backend %s got no result trying next", $backend );
-	  next;
+      next;
     }
     return $result;
   }

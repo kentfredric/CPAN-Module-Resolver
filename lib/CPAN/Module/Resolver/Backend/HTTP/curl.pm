@@ -2,6 +2,7 @@ use strict;
 use warnings;
 
 package CPAN::Module::Resolver::Backend::HTTP::curl;
+
 # ABSTRACT: Adapter for CPAN::Module::Resolver to use C<curl>
 
 =head1 DESCRIPTION
@@ -35,26 +36,26 @@ sub usable                   { return defined $_[0]->_which('curl') }
 sub _build_curl_path         { return $_[0]->_which('curl') }
 sub _build_verbose           { 0 }
 sub _build_curl_get_flags    { return [ '-L', ( $_[0]->verbose ? () : '-s' ) ] }
-sub _build_curl_mirror_flags { return [ '-L', ( $_[0]->verbose ? () : '-s' ) , '-#', ], }
+sub _build_curl_mirror_flags { return [ '-L', ( $_[0]->verbose ? () : '-s' ), '-#', ], }
 
 sub _curl {
-	my ($self, @curlargs ) = @_;
- 	$self->_safeexec( my $fh, $self->curl_path, @curlargs )
-		 or die "curl @curlargs: $!";
-	local $/;
-	return <$fh>;
+  my ( $self, @curlargs ) = @_;
+  $self->_safeexec( my $fh, $self->curl_path, @curlargs )
+    or die "curl @curlargs: $!";
+  local $/;
+  return <$fh>;
 }
 
 sub get {
-    my ( $self, $uri ) = @_;
-    return $self->_file_get($uri) if $uri =~ s!^file:/+!/!;
-	return $self->_curl( $uri, @{ $self->curl_flags }, )
-}
-sub mirror {
-    my ( $self, $uri, $path ) = @_;
-    return $self->_file_mirror($uri) if $uri =~ s!^file:/+!/!;
-	return $self->_curl( $uri, @{ $self->curl_flags }, '-o', $path );
+  my ( $self, $uri ) = @_;
+  return $self->_file_get($uri) if $uri =~ s!^file:/+!/!;
+  return $self->_curl( $uri, @{ $self->curl_flags }, );
 }
 
+sub mirror {
+  my ( $self, $uri, $path ) = @_;
+  return $self->_file_mirror($uri) if $uri =~ s!^file:/+!/!;
+  return $self->_curl( $uri, @{ $self->curl_flags }, '-o', $path );
+}
 
 1;

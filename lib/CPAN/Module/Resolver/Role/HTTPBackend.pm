@@ -2,6 +2,7 @@ use strict;
 use warnings;
 
 package CPAN::Module::Resolver::Role::HTTPBackend;
+
 # ABSTRACT: An interface for adapters to implement various HTTP functions for CPAN::Module::Resolver
 
 use Moo::Role;
@@ -74,5 +75,5 @@ requires 'get';
 requires 'mirror';
 requires 'usable';
 
-1; 
+1;
 

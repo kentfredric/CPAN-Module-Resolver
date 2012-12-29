@@ -50,8 +50,6 @@ ie:
 
 =cut
 
-
-
 use Moo;
 
 my (@_distname_info_properties) = qw(dist version maturity filename cpanid distvname extension pathname);
@@ -206,11 +204,13 @@ sub _build__distname_info {
   require CPAN::DistnameInfo;
   return CPAN::DistnameInfo->new($dist);
 }
+
 =method as_hash
 
 Returns all useful properties as values in an hash
 
 =cut
+
 sub as_hash {
   my $self = shift;
   return { ( map { $_, $self->$_() } @_distname_info_properties ), ( map { $_, $self->$_() } @_own_properties ), };

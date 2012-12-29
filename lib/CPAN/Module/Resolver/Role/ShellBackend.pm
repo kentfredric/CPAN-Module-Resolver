@@ -23,29 +23,32 @@ my $quote = ( WIN32 ? q/"/ : q/'/ );
 =cut
 
 sub _shell_quote {
-    my ( $self, $stuff ) = @_;
-    $stuff =~ /^${quote}.+${quote}$/ ? $stuff : ( $quote . $stuff . $quote );
+  my ( $self, $stuff ) = @_;
+  $stuff =~ /^${quote}.+${quote}$/ ? $stuff : ( $quote . $stuff . $quote );
 }
+
 =pmethod _which
 
 	my $path = $self->_which('wget');
 
 =cut
+
 sub _which {
-    my ( $self, $name ) = @_;
-    require File::Spec;
-    my $exe_ext = $Config{_exe};
-    for my $dir ( File::Spec->path ) {
-        my $fullpath = File::Spec->catfile( $dir, $name );
-        if ( -x $fullpath || -x ( $fullpath .= $exe_ext ) ) {
-            if ( $fullpath =~ /\s/ && $fullpath !~ /^$quote/ ) {
-                $fullpath = $self->_shell_quote($fullpath);
-            }
-            return $fullpath;
-        }
+  my ( $self, $name ) = @_;
+  require File::Spec;
+  my $exe_ext = $Config{_exe};
+  for my $dir ( File::Spec->path ) {
+    my $fullpath = File::Spec->catfile( $dir, $name );
+    if ( -x $fullpath || -x ( $fullpath .= $exe_ext ) ) {
+      if ( $fullpath =~ /\s/ && $fullpath !~ /^$quote/ ) {
+        $fullpath = $self->_shell_quote($fullpath);
+      }
+      return $fullpath;
     }
-    return;
+  }
+  return;
 }
+
 =pmethod _safeexec
 
 	$self->_safeexec( my $fh, 'wget', @args_for_wget ) or die "Bad things! $!";
@@ -55,25 +58,25 @@ sub _which {
 =cut
 
 sub _safeexec {
-    my $self = shift;
-    require Symbol;
-    my $rdr = $_[0] ||= Symbol::gensym();
+  my $self = shift;
+  require Symbol;
+  my $rdr = $_[0] ||= Symbol::gensym();
 
-    if (WIN32) {
-        my $cmd = join q{ }, map { $self->_shell_quote($_) } @_[ 1 .. $#_ ];
-        return open( $rdr, "$cmd |" );
-    }
+  if (WIN32) {
+    my $cmd = join q{ }, map { $self->_shell_quote($_) } @_[ 1 .. $#_ ];
+    return open( $rdr, "$cmd |" );
+  }
 
-    if ( my $pid = open( $rdr, '-|' ) ) {
-        return $pid;
-    }
-    elsif ( defined $pid ) {
-        exec( @_[ 1 .. $#_ ] );
-        exit 1;
-    }
-    else {
-        return;
-    }
+  if ( my $pid = open( $rdr, '-|' ) ) {
+    return $pid;
+  }
+  elsif ( defined $pid ) {
+    exec( @_[ 1 .. $#_ ] );
+    exit 1;
+  }
+  else {
+    return;
+  }
 }
 
 =pmethod _file_get
@@ -85,9 +88,9 @@ Dispatch via a file on disk, not via web call
 =cut
 
 sub _file_get {
-    my ( $self, $uri ) = @_;
-    open my $fh, '<', $uri or return;
-    return join '', <$fh>;
+  my ( $self, $uri ) = @_;
+  open my $fh, '<', $uri or return;
+  return join '', <$fh>;
 }
 
 =pmethod _file_mirror
@@ -99,8 +102,8 @@ Mirror a file on disk, not via a web call
 =cut
 
 sub _file_mirror {
-    my ( $self, $uri, $path ) = @_;
-    require File::Copy;
-    File::Copy::copy( $uri, $path );
+  my ( $self, $uri, $path ) = @_;
+  require File::Copy;
+  File::Copy::copy( $uri, $path );
 }
 

@@ -22,6 +22,7 @@ See the documentation for L<< C<CPAN::Module::Resolver::Role::Resolver>|CPAN::Mo
 Logic stolen from L<< C<cpanm>|App::cpanminus >>, by L<< Tatsuhiko Miyagawa|https://metacpan.org/author/MIYAGAWA >>
 
 =cut
+
 use Moo;
 use Module::Runtime;
 use CPAN::Module::Resolver::Result;
@@ -47,9 +48,7 @@ sub _safe_decode {
 }
 
 sub usable {
-  return eval { 
-	Module::Runtime::require_module('JSON::PP');
-  };
+  return eval { Module::Runtime::require_module('JSON::PP'); };
 }
 
 sub resolve {
