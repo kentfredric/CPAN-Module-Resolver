@@ -108,16 +108,5 @@ Convenience method to call accessor-stored coderef in C<_backend_mirror>
 sub get { my $self = shift; $self->_backend_get->( @_ )}
 sub mirror { my $self = shift; $self->_backend_mirror->( @_ ) }
 
-=pmethod _parse_meta_string
-
-	
-
-=cut
-
-sub _parse_meta_string {
-  my ( $self, $string ) = @_;
-  require Parse::CPAN::Meta;
-  return eval { ( Parse::CPAN::Meta::Load($string) )[0] } || undef;
-}
 
 1;

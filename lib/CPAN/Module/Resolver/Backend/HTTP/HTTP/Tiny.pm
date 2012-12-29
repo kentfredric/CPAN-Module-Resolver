@@ -23,6 +23,7 @@ Logic stolen from L<< C<cpanm>|App::cpanminus >>, by L<< Tatsuhiko Miyagawa|http
 =cut
 
 use Moo;
+use Module::Runtime;
 
 with 'CPAN::Module::Resolver::Role::HTTPBackend';
 
@@ -33,7 +34,7 @@ sub _version {
 }
 
 sub _use_ht {
-    require HTTP::Tiny;
+    Module::Runtime::require_module('HTTP::Tiny');
 }
 
 sub _build_ht_instance {

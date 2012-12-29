@@ -36,6 +36,10 @@ sub usable {
   return eval { Module::Runtime::require_module('Parse::CPAN::Meta'); };
 }
 
+sub _parse_meta_string {
+  my ( $self, $string ) = @_;
+  return eval { ( Parse::CPAN::Meta::Load($string) )[0] } || undef;
+}
 sub _build_base_uri { 'http://cpanmetadb.plackperl.org/v1.0/package/%s' }
 sub _uri_for_module { my $self = shift; return sprintf $self->base_uri, @_; }
 sub _module_yaml { my $self = shift; return $self->get( $self->_uri_for_module(@_) ) }

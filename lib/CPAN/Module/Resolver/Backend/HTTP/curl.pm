@@ -39,7 +39,7 @@ sub _build_curl_mirror_flags { return [ '-L', ( $_[0]->verbose ? () : '-s' ) , '
 
 sub _curl {
 	my ($self, @curlargs ) = @_;
- 	$self->_safeexec( $fh, $self->curl_path, @curlags )
+ 	$self->_safeexec( my $fh, $self->curl_path, @curlargs )
 		 or die "curl @curlargs: $!";
 	local $/;
 	return <$fh>;
