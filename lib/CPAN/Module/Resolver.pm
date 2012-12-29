@@ -75,7 +75,7 @@ has mirrors               => ( is => lazy => );
 sub _get    { my $self = shift; return $self->backend_http->get(@_) }
 sub _mirror { my $self = shift; return $self->backend_http->mirror(@_) }
 
-sub _build_backend_resolve_order { return [qw( cpanmetadb )]; }
+sub _build_backend_resolve_order { return [qw( cpanmetadb search_cpan_org )]; }
 sub _build_backend_http_order    { return [qw( LWP wget curl HTTP::Tiny )] }
 sub _build_mirrors               { return ['http://www.cpan.org'] }
 
