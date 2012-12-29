@@ -9,9 +9,11 @@ my $resolver = CPAN::Module::Resolver->new( );
 
 pass('constructor did not bail');
 
+my $result = $resolver->resolve('Moose');
 
-my $content = $resolver->_get( 'http://google.com' );
+pass('didn\'t bail resolving a module');
 
+note explain $result;
 
 done_testing();
 
