@@ -2,6 +2,68 @@ use strict;
 use warnings;
 
 package CPAN::Module::Resolver;
+
+# ABSTRACT: Resolve module names to the dists they are contained in
+
+=head1 DESCRIPTION
+
+There are many ways to resolve what package a module is contained in, and this is a primary feature of any CPAN Client.
+
+This module simply aims to unify all the different ways of doing it via one simple interface:
+
+	use CPAN::Module::Resolver;
+
+	my $resolver = CPAN::Module::Resolver->new();
+	my $result   = $resolver->resolve('Moose');
+
+	for my $uri ( @{ $result->{uris} } ){
+		print "$uri\n";
+	}
+
+And this does a many things automatically to make life easier:
+
+=over 4
+
+=item * Automatically chooses from all available HTTP Methods, presently consisting of
+
+=over 6
+
+=item * LWP
+
+=item * wget
+
+=item * curl
+
+=item * HTTP::Tiny
+
+=back
+
+=item * Automatically uses available web services to query the results, using one of 
+
+=over 6
+
+=item * cpanmetadb
+
+=item * metacpan api
+
+=item * searching search.cpan.org
+
+=back
+
+=back
+
+And additionally, you can choose which HTTP backend to use, and which query interface to call. 
+
+	my $resolver = CPAN::Module::Resolver->new(
+		backend_http_order    => [qw( LWP wget curl fake )],   						# uses the first one that works
+		backend_resolve_order => [qw( metacpan cpanmetadb search_cpan_org )],		# uses first successful result.
+	);
+	
+
+Most the code at present is stolen from bits of the ever popular L<< C<cpanm>|App::cpanminus >>
+
+=cut
+
 use Moo;
 use Try::Tiny;
 

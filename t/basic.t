@@ -5,7 +5,7 @@ use Test::More;
 
 use CPAN::Module::Resolver;
 
-my $resolver = CPAN::Module::Resolver->new( );
+my $resolver = CPAN::Module::Resolver->new( backend_resolve_order => [ 'search_cpan_org' ] );
 
 pass('constructor did not bail');
 
