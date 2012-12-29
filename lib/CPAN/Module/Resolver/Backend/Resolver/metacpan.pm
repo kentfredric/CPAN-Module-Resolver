@@ -24,6 +24,7 @@ Logic stolen from L<< C<cpanm>|App::cpanminus >>, by L<< Tatsuhiko Miyagawa|http
 =cut
 
 use Moo;
+use Try::Tiny;
 use Module::Runtime;
 use CPAN::Module::Resolver::Result;
 
@@ -43,8 +44,14 @@ sub _module_data    { my $self = shift; return $self->_safe_decode( $self->_modu
 sub _dist_data      { my $self = shift; return $self->_safe_decode( $self->_dist_json(@_) ) }
 
 sub _safe_decode {
-  my $self = shift;
-  return eval { JSON::PP::decode_json(@_) };
+  my ($self,@content) = @_;
+  return try {
+	return JSON::PP::decode_json(@content) 
+  } catch {
+	require Carp;
+	Carp::carp($_);
+	return undef;
+  }; 
 }
 
 sub usable {

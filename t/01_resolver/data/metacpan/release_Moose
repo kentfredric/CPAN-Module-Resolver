@@ -1,0 +1,585 @@
+{
+   "resources" : {
+      "repository" : {
+         "web" : "http://git.shadowcat.co.uk/gitweb/gitweb.cgi?p=gitmo/Moose.git;a=summary",
+         "url" : "git://git.moose.perl.org/Moose.git",
+         "type" : "git"
+      },
+      "bugtracker" : {
+         "web" : "http://rt.cpan.org/NoAuth/Bugs.html?Dist=Moose",
+         "mailto" : "bug-moose@rt.cpan.org"
+      }
+   },
+   "status" : "latest",
+   "date" : "2012-09-19T21:14:17",
+   "author" : "DOY",
+   "maturity" : "released",
+   "dependency" : [
+      {
+         "relationship" : "requires",
+         "phase" : "develop",
+         "version" : 0,
+         "version_numified" : 0,
+         "module" : "DateTime"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "develop",
+         "version" : 0,
+         "version_numified" : 0,
+         "module" : "DateTime::Format::MySQL"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "develop",
+         "version" : 0,
+         "version_numified" : 0,
+         "module" : "PadWalker"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "develop",
+         "version" : 0,
+         "version_numified" : 0,
+         "module" : "Test::LeakTrace"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "develop",
+         "version" : 0,
+         "version_numified" : 0,
+         "module" : "DBM::Deep"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "develop",
+         "version" : 0,
+         "version_numified" : 0,
+         "module" : "Test::Spelling"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "develop",
+         "version" : 0,
+         "version_numified" : 0,
+         "module" : "Data::Visitor"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "develop",
+         "version" : 0,
+         "version_numified" : 0,
+         "module" : "Test::Memory::Cycle"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "develop",
+         "version" : 0,
+         "version_numified" : 0,
+         "module" : "DateTime::Calendar::Mayan"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "develop",
+         "version" : 0,
+         "version_numified" : 0,
+         "module" : "Regexp::Common"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "develop",
+         "version" : 0,
+         "version_numified" : 0,
+         "module" : "HTTP::Headers"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "develop",
+         "version" : "0.13",
+         "version_numified" : 0.13,
+         "module" : "Test::DependentModules"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "develop",
+         "version" : 0,
+         "version_numified" : 0,
+         "module" : "Test::Output"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "develop",
+         "version" : 0,
+         "version_numified" : 0,
+         "module" : "Test::Deep"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "develop",
+         "version" : 0,
+         "version_numified" : 0,
+         "module" : "File::Find::Rule"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "develop",
+         "version" : 0,
+         "version_numified" : 0,
+         "module" : "IO::File"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "develop",
+         "version" : 0,
+         "version_numified" : 0,
+         "module" : "URI"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "develop",
+         "version" : 0,
+         "version_numified" : 0,
+         "module" : "Module::Refresh"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "develop",
+         "version" : 0,
+         "version_numified" : 0,
+         "module" : "IO::String"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "develop",
+         "version" : 0,
+         "version_numified" : 0,
+         "module" : "Locale::US"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "develop",
+         "version" : 0,
+         "version_numified" : 0,
+         "module" : "Module::Info"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "develop",
+         "version" : 0,
+         "version_numified" : 0,
+         "module" : "Test::Inline"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "develop",
+         "version" : 0,
+         "version_numified" : 0,
+         "module" : "Algorithm::C3"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "develop",
+         "version" : 0,
+         "version_numified" : 0,
+         "module" : "Params::Coerce"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "develop",
+         "version" : 0,
+         "version_numified" : 0,
+         "module" : "SUPER"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "develop",
+         "version" : 0,
+         "version_numified" : 0,
+         "module" : "Declare::Constraints::Simple"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "test",
+         "version" : "0.88",
+         "version_numified" : 0.88,
+         "module" : "Test::More"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "test",
+         "version" : "0.05",
+         "version_numified" : 0.05,
+         "module" : "Test::Requires"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "test",
+         "version" : "0.001",
+         "version_numified" : 0.001,
+         "module" : "Test::Fatal"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "runtime",
+         "version" : "0.11",
+         "version_numified" : 0.11,
+         "module" : "Package::DeprecationManager"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "runtime",
+         "version" : "1.19",
+         "version_numified" : 1.19,
+         "module" : "Scalar::Util"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "runtime",
+         "version" : "0.24",
+         "version_numified" : 0.24,
+         "module" : "Package::Stash::XS"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "runtime",
+         "version" : "0.980",
+         "version_numified" : 0.98,
+         "module" : "Sub::Exporter"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "runtime",
+         "version" : "1.00",
+         "version_numified" : 1,
+         "module" : "Params::Util"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "runtime",
+         "version" : 0,
+         "version_numified" : 0,
+         "module" : "Task::Weaken"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "runtime",
+         "version" : "0.05",
+         "version_numified" : 0.05,
+         "module" : "MRO::Compat"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "runtime",
+         "version" : "0.28",
+         "version_numified" : 0.28,
+         "module" : "List::MoreUtils"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "runtime",
+         "version" : "0.01",
+         "version_numified" : 0.01,
+         "module" : "Class::Load::XS"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "runtime",
+         "version" : "0.02",
+         "version_numified" : 0.02,
+         "module" : "Try::Tiny"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "runtime",
+         "version" : "0.04",
+         "version_numified" : 0.04,
+         "module" : "Eval::Closure"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "runtime",
+         "version" : "0.09",
+         "version_numified" : 0.09,
+         "module" : "Class::Load"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "runtime",
+         "version" : "0.32",
+         "version_numified" : 0.32,
+         "module" : "Package::Stash"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "runtime",
+         "version" : "0.02",
+         "version_numified" : 0.02,
+         "module" : "Dist::CheckConflicts"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "runtime",
+         "version" : "0.05",
+         "version_numified" : 0.05,
+         "module" : "Sub::Name"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "runtime",
+         "version" : "0.107",
+         "version_numified" : 0.107,
+         "module" : "Data::OptList"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "runtime",
+         "version" : "1.22",
+         "version_numified" : 1.22,
+         "module" : "Carp"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "runtime",
+         "version" : "v5.8.3",
+         "version_numified" : 5.008003,
+         "module" : "perl"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "runtime",
+         "version" : 0,
+         "version_numified" : 0,
+         "module" : "Devel::GlobalDestruction"
+      },
+      {
+         "relationship" : "recommends",
+         "phase" : "runtime",
+         "version" : "0.14",
+         "version_numified" : 0.14,
+         "module" : "Devel::PartialDump"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "configure",
+         "version" : "6.30",
+         "version_numified" : 6.3,
+         "module" : "ExtUtils::MakeMaker"
+      },
+      {
+         "relationship" : "requires",
+         "phase" : "configure",
+         "version" : "0.02",
+         "version_numified" : 0.02,
+         "module" : "Dist::CheckConflicts"
+      }
+   ],
+   "id" : "NODTTzBNPqFcxAtO_V5KqTYiu68",
+   "metadata" : {
+      "no_index" : {
+         "namespace" : [
+            "Class::MOP::Mixin",
+            "Moose::Meta::Method::Accessor::Native",
+            "Moose::Meta::Mixin"
+         ],
+         "directory" : [
+            "benchmarks",
+            "t",
+            "xt",
+            "inc",
+            "example",
+            "blib",
+            "examples",
+            "eg"
+         ],
+         "package" : [
+            "Class::MOP::Class::Immutable::Trait",
+            "Class::MOP::Deprecated",
+            "Class::MOP::MiniTrait",
+            "Class::MOP::Mixin",
+            "Moose::Deprecated",
+            "Moose::Error::Util",
+            "Moose::Meta::Attribute::Native::Trait",
+            "Moose::Meta::Class::Immutable::Trait",
+            "Moose::Meta::Method::Accessor::Native",
+            "Moose::Meta::Object::Trait",
+            "Moose::Util::TypeConstraints::OptimizedConstraints",
+            "Moose::Util::TypeConstraints::Builtins"
+         ]
+      },
+      "resources" : {
+         "repository" : {
+            "web" : "http://git.shadowcat.co.uk/gitweb/gitweb.cgi?p=gitmo/Moose.git;a=summary",
+            "url" : "git://git.moose.perl.org/Moose.git",
+            "type" : "git"
+         },
+         "bugtracker" : {
+            "web" : "http://rt.cpan.org/NoAuth/Bugs.html?Dist=Moose",
+            "mailto" : "bug-moose@rt.cpan.org"
+         }
+      },
+      "meta-spec" : {
+         "version" : "2",
+         "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec"
+      },
+      "generated_by" : "Dist::Zilla version 4.300020, CPAN::Meta::Converter version 2.120921, CPAN::Meta::Converter version 2.112150",
+      "x_authority" : "cpan:STEVAN",
+      "version" : "2.0604",
+      "x_conflicts" : {
+         "MooseX::AttributeInflate" : "0.02",
+         "Pod::Elemental" : "0.093280",
+         "Fey::ORM" : "0.42",
+         "Markdent" : "0.16",
+         "MooseX::Meta::Attribute::Index" : "0.04",
+         "MooseX::Singleton" : "0.25",
+         "File::ChangeNotify" : "0.15",
+         "MooseX::Role::WithOverloading" : "0.07",
+         "MooseX::InstanceTracking" : "0.04",
+         "MooseX::Role::Cmd" : "0.06",
+         "Catalyst" : "5.80028",
+         "MooseX::AttributeIndexes" : "1.0.0",
+         "MooseX::ClassAttribute" : "0.25",
+         "MooseX::SetOnce" : "0.100473",
+         "MooseX::LazyRequire" : "0.06",
+         "KiokuDB" : "0.51",
+         "MooseX::SlurpyConstructor" : "1.1",
+         "Fey" : "0.36",
+         "PRANG" : "0.14",
+         "MooseX::Types" : "0.19",
+         "MooseX::FollowPBP" : "0.02",
+         "MooseX::ABC" : "0.05",
+         "MooseX::AlwaysCoerce" : "0.13",
+         "MooseX::Types::Signal" : "1.101930",
+         "MooseX::Types::Parameterizable" : "0.05",
+         "MooseX::MethodAttributes" : "0.22",
+         "MooseX::NonMoose" : "0.17",
+         "MooseX::Aliases" : "0.08",
+         "MooseX::Attribute::Dependent" : "1.1.0",
+         "MooseX::Constructor::AllErrors" : "0.012",
+         "MooseX::StrictConstructor" : "0.12",
+         "Test::Able" : "0.10",
+         "MooseX::HasDefaults" : "0.02",
+         "MooseX::SemiAffordanceAccessor" : "0.05",
+         "MooseX::PrivateSetters" : "0.03",
+         "MooseX::POE" : "0.214",
+         "namespace::autoclean" : "0.08",
+         "MooseX::Attribute::Prototype" : "0.10",
+         "MooseX::Scaffold" : "0.05",
+         "MooseX::UndefTolerant" : "0.11",
+         "Mason" : "2.18",
+         "Reaction" : "0.002003",
+         "MooseX::AttributeHelpers" : "0.22",
+         "MooseX::Role::Parameterized" : "0.23",
+         "MooseX::Params::Validate" : "0.05",
+         "MooseX::Meta::Attribute::Lvalue" : "0.05",
+         "MooseX::CascadeClearing" : "0.03",
+         "MooseX::Attribute::Deflator" : "2.1.7",
+         "Devel::REPL" : "1.003008"
+      },
+      "name" : "Moose",
+      "author" : [
+         "Moose is maintained by the Moose Cabal, along with the help of many contributors. See L<Moose/CABAL> and L<Moose/CONTRIBUTORS> for details."
+      ],
+      "dynamic_config" : 0,
+      "license" : [
+         "perl_5"
+      ],
+      "prereqs" : {
+         "develop" : {
+            "requires" : {
+               "DateTime" : 0,
+               "DateTime::Format::MySQL" : 0,
+               "PadWalker" : 0,
+               "Test::LeakTrace" : 0,
+               "DBM::Deep" : 0,
+               "Test::Spelling" : 0,
+               "Data::Visitor" : 0,
+               "Test::Memory::Cycle" : 0,
+               "DateTime::Calendar::Mayan" : 0,
+               "Regexp::Common" : 0,
+               "HTTP::Headers" : 0,
+               "Test::DependentModules" : "0.13",
+               "Test::Output" : 0,
+               "Test::Deep" : 0,
+               "File::Find::Rule" : 0,
+               "IO::File" : 0,
+               "URI" : 0,
+               "Module::Refresh" : 0,
+               "IO::String" : 0,
+               "Locale::US" : 0,
+               "Module::Info" : 0,
+               "Test::Inline" : 0,
+               "Algorithm::C3" : 0,
+               "Params::Coerce" : 0,
+               "SUPER" : 0,
+               "Declare::Constraints::Simple" : 0
+            }
+         },
+         "test" : {
+            "requires" : {
+               "Test::More" : "0.88",
+               "Test::Requires" : "0.05",
+               "Test::Fatal" : "0.001"
+            }
+         },
+         "runtime" : {
+            "requires" : {
+               "Package::DeprecationManager" : "0.11",
+               "Scalar::Util" : "1.19",
+               "Package::Stash::XS" : "0.24",
+               "Sub::Exporter" : "0.980",
+               "Params::Util" : "1.00",
+               "Task::Weaken" : 0,
+               "MRO::Compat" : "0.05",
+               "List::MoreUtils" : "0.28",
+               "Class::Load::XS" : "0.01",
+               "Try::Tiny" : "0.02",
+               "Eval::Closure" : "0.04",
+               "Class::Load" : "0.09",
+               "Package::Stash" : "0.32",
+               "Dist::CheckConflicts" : "0.02",
+               "Sub::Name" : "0.05",
+               "Data::OptList" : "0.107",
+               "Carp" : "1.22",
+               "perl" : "v5.8.3",
+               "Devel::GlobalDestruction" : 0
+            },
+            "recommends" : {
+               "Devel::PartialDump" : "0.14"
+            }
+         },
+         "configure" : {
+            "requires" : {
+               "ExtUtils::MakeMaker" : "6.30",
+               "Dist::CheckConflicts" : "0.02"
+            }
+         }
+      },
+      "abstract" : "A postmodern object system for Perl 5",
+      "release_status" : "stable"
+   },
+   "authorized" : true,
+   "download_url" : "http://cpan.metacpan.org/authors/id/D/DO/DOY/Moose-2.0604.tar.gz",
+   "first" : false,
+   "archive" : "Moose-2.0604.tar.gz",
+   "version" : "2.0604",
+   "name" : "Moose-2.0604",
+   "version_numified" : 2.0604,
+   "license" : [
+      "perl_5"
+   ],
+   "distribution" : "Moose",
+   "stat" : {
+      "uid" : 1004,
+      "mtime" : 1348089257,
+      "mode" : 33188,
+      "size" : 696388,
+      "gid" : 100
+   },
+   "tests" : {
+      "pass" : 1456,
+      "fail" : 4,
+      "unknown" : 3,
+      "na" : 111
+   },
+   "abstract" : "A postmodern object system for Perl 5"
+}

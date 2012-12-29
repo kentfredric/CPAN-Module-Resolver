@@ -24,6 +24,8 @@ Logic stolen from L<< C<cpanm>|App::cpanminus >>, by L<< Tatsuhiko Miyagawa|http
 =cut
 
 use Moo;
+use CPAN::Module::Resolver::Result;
+
 with 'CPAN::Module::Resolver::Role::Resolver';
 
 has base_uri => ( is => lazy => );
@@ -39,7 +41,10 @@ sub resolve {
   my $html = $self->_module_html($modname);
   return unless $html;
   if ( $html =~ m!<a href="/CPAN/authors/id/(.*?[.](?:tar[.]gz|tgz|tar[.]bz2|zip))">! ) {
-    return $self->_cpan_module( $modname, $1 );
+	return CPAN::Module::Resolver::Result->new( 
+		module => $modname, 
+		dist => $1
+	);
   }
   return;
 }
