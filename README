@@ -1,72 +1,64 @@
-CPAN-Module-Resolver-C0P.UA1sN.e-0rM:o:Cdlouinlbte:r-:iRCbePusAtoNel:dv:eMProe-dr0ul.l1eD.:o0:c:Ru:emlseionblt:va:etCriP(oA3nN)::Module::Resolver(3)
+NAME
+    CPAN::Module::Resolver - Resolve module names to the dists they are
+    contained in
 
+VERSION
+    version 0.1.0
 
+DESCRIPTION
+    There are many ways to resolve what package a module is contained in,
+    and this is a primary feature of any CPAN Client.
 
-NNAAMMEE
-       CPAN::Module::Resolver - Resolve module names to the dists they are
-       contained in
+    This module simply aims to unify all the different ways of doing it via
+    one simple interface:
 
-VVEERRSSIIOONN
-       version 0.1.0
+            use CPAN::Module::Resolver;
 
-DDEESSCCRRIIPPTTIIOONN
-       There are many ways to resolve what package a module is contained in,
-       and this is a primary feature of any CPAN Client.
+            my $resolver = CPAN::Module::Resolver->new();
+            my $result   = $resolver->resolve('Moose');
 
-       This module simply aims to unify all the different ways of doing it via
-       one simple interface:
+            for my $uri ( @{ $result->{uris} } ){
+                    print "$uri\n";
+            }
 
-               use CPAN::Module::Resolver;
+    And this does a many things automatically to make life easier:
 
-               my $resolver = CPAN::Module::Resolver->new();
-               my $result   = $resolver->resolve('Moose');
+    *   Automatically chooses from all available HTTP Methods, presently
+        consisting of
 
-               for my $uri ( @{ $result->{uris} } ){
-                       print "$uri\n";
-               }
+        *     LWP
 
-       And this does a many things automatically to make life easier:
+        *     wget
 
-       ·   Automatically chooses from all available HTTP Methods, presently
-           consisting of
+        *     curl
 
-           ·     LWP
+        *     HTTP::Tiny
 
-           ·     wget
+    *   Automatically uses available web services to query the results,
+        using one of
 
-           ·     curl
+        *     cpanmetadb
 
-           ·     HTTP::Tiny
+        *     metacpan api
 
-       ·   Automatically uses available web services to query the results,
-           using one of
+        *     searching search.cpan.org
 
-           ·     cpanmetadb
+    And additionally, you can choose which HTTP backend to use, and which
+    query interface to call.
 
-           ·     metacpan api
+            my $resolver = CPAN::Module::Resolver->new(
+                    backend_http_order    => [qw( LWP wget curl fake )],                                            # uses the first one that works
+                    backend_resolve_order => [qw( metacpan cpanmetadb search_cpan_org )],           # uses first successful result.
+            );
 
-           ·     searching search.cpan.org
+    Most the code at present is stolen from bits of the ever popular "cpanm"
 
-       And additionally, you can choose which HTTP backend to use, and which
-       query interface to call.
+AUTHOR
+    Kent Fredric <kentnl@cpan.org>
 
-               my $resolver = CPAN::Module::Resolver->new(
-                       backend_http_order    => [qw( LWP wget curl fake )],                                            # uses the first one that works
-                       backend_resolve_order => [qw( metacpan cpanmetadb search_cpan_org )],           # uses first successful result.
-               );
+COPYRIGHT AND LICENSE
+    This software is copyright (c) 2012 by Kent Fredric <kentnl@cpan.org>.
 
-       Most the code at present is stolen from bits of the ever popular
-       "cpanm"
+    This is free software; you can redistribute it and/or modify it under
+    the same terms as the Perl 5 programming language system itself.
 
-AAUUTTHHOORR
-       Kent Fredric <kentnl@cpan.org>
-
-CCOOPPYYRRIIGGHHTT AANNDD LLIICCEENNSSEE
-       This software is copyright (c) 2012 by Kent Fredric <kentnl@cpan.org>.
-
-       This is free software; you can redistribute it and/or modify it under
-       the same terms as the Perl 5 programming language system itself.
-
-
-
-perl v5.16.2        CPAN-Module-Re2s0o1l2v-e1r2--03.01.0::lib::CPAN::Module::Resolver(3)
