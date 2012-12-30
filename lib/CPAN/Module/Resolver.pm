@@ -65,79 +65,63 @@ Most the code at present is stolen from bits of the ever popular L<< C<cpanm>|Ap
 =cut
 
 use Moo;
-use Try::Tiny;
+use Module::Runtime qw();
+use Carp qw( carp croak );
+use Scalar::Util qw( blessed );
+use Try::Tiny qw( try catch );
+use CPAN::Module::Resolver::BackendIterator;
 
-has backend_resolve_order => ( is => lazy => );
-has backend_http_order    => ( is => lazy => );
-has backend_http          => ( is => lazy => );
+sub _array_ref { ref $_[0] eq 'ARRAY' or croak('must be an array ref') }
+sub _module_name { Module::Runtime::check_module_name( $_[0] ) }
+sub _hash_ref    { ref $_[0] eq 'HASH' or croak('must be a hash ref') }
+sub _blessed_ref { ref $_[0] and blessed( $_[0] ) or croak('must be an object') }
 
-sub _get    { my $self = shift; return $self->backend_http->get(@_) }
-sub _mirror { my $self = shift; return $self->backend_http->mirror(@_) }
+has resolve_order => ( is => lazy =>, isa => \&_array_ref );
+has http_order    => ( is => lazy =>, isa => \&_array_ref );
+has resolve_args  => ( is => lazy =>, isa => \&_hash_ref );
+has http_args     => ( is => lazy =>, isa => \&_hash_ref );
+has _backend_http => ( is => lazy =>, isa => \&_blessed_ref );
+has _http_iterator    => ( is => lazy => isa => \&_blessed_ref );
+has _resolve_iterator => ( is => lazy => isa => \&_blessed_ref );
 
-sub _build_backend_resolve_order { return [qw( cpanmetadb search_cpan_org )]; }
-sub _build_backend_http_order    { return [qw( LWP wget curl HTTP::Tiny )] }
+sub _build_resolve_order { return [qw( cpanmetadb search_cpan_org )]; }
+sub _build_http_order    { return [qw( LWP wget curl HTTP::Tiny )] }
+sub _build_resolve_args { return {} }
+sub _build_http_args    { return {} }
 
-sub _carp { require Carp; return Carp::carp(@_) }
-sub _carpf { my $format = shift; return _carp( sprintf $format, @_ ) }
-sub _croak { require Carp; return Carp::croak(@_) }
-
-sub _load_backend {
-  my ( $self, $suffix, $backend ) = @_;
-  my $backend_group = Module::Runtime::compose_module_name( 'CPAN::Module::Resolver::Backend', $suffix );
-  my $modname = Module::Runtime::compose_module_name( $backend_group, $backend );
-  return try {
-    Module::Runtime::require_module($modname);
-    return $modname;
-  }
-  catch {
-    _carpf( qq{'%s' backend %s failed to load, trying next\n\n%s\n\n}, $suffix, $backend, $_ );
-    return;
-  };
-}
-
-sub _usable_backend {
-  my ( $self, $suffix, $backend, $cargs ) = @_;
-  my $modname = $self->_load_backend( $suffix, $backend );
-  return unless $modname;
-  my $instance = $modname->new( @{$cargs} );
-  if ( not $instance->usable() ) {
-    _carpf( q{'%s' backend %s unusable, trying next}, $suffix, $backend, $modname );
-    return;
-  }
-  return $instance;
-}
-
-sub _build_backend_http {
+sub _build__http_iterator {
   my ($self) = shift;
-  require Module::Runtime;
-  for my $backend ( @{ $self->backend_http_order } ) {
-    my $instance = $self->_usable_backend( 'HTTP', $backend, [] );
-    next unless $instance;
-    return $instance;
-  }
-  _croak(q{None of the specified backends were loadable/useable});
+  return CPAN::Module::Resolver::BackendIterator->new(
+    order          => $self->http_order,
+    args           => $self->http_args,
+    label          => 'http',
+    backend_prefix => 'CPAN::Module::Resolver::Backend',
+    backend_infix  => 'HTTP',
+  );
+}
+
+sub _build__resolve_iterator {
+  my $self = shift;
+  return CPAN::Module::Resolver::BackendIterator->new(
+    order       => $self->resolve_order,
+    args        => $self->resolve_args,
+    common_args => [
+      _backend_get    => sub { $self->_backend_http->get(@_) },
+      _backend_mirror => sub { $self->_backend_http->mirror(@_) },
+    ],
+    label          => 'resolver',
+    backend_prefix => 'CPAN::Module::Resolver::Backend',
+    backend_infix  => 'Resolver',
+  );
+}
+
+sub _build__backend_http {
+  my ($self) = shift;
+  return $self->_http_iterator->each_usable_backend( sub { return $_ } );
 }
 
 sub resolve {
   my ( $self, $module ) = @_;
-  for my $backend ( @{ $self->backend_resolve_order } ) {
-    my $instance = $self->_usable_backend(
-      'Resolver',
-      $backend,
-      [
-        _backend_get    => sub { $self->backend_http->get(@_) },
-        _backend_mirror => sub { $self->backend_http->mirror(@_) },
-      ]
-    );
-    my $result = $instance->resolve($module);
-    if ( not $result ) {
-      _carpf( q{'resolver' backend %s got no result trying next}, $backend );
-      next;
-    }
-    return $result;
-  }
-  _carp(q{None of the specified backends returned a result});
-  return;
-
+  return $self->_resolve_iterator->each_usable_backend( sub { return $_->resolve($module) } );
 }
 1;
