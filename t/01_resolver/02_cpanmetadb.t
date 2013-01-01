@@ -2,13 +2,13 @@
 use Test::More;
 use FindBin;
 
-use CPAN::Module::Resolver::Backend::Resolver::cpanmetadb;
+use CPAN::Module::Resolver::Backend::cpanmetadb;
 
 my $responses = { 'http://cpanmetadb.plackperl.org/v1.0/package/Moose' => 'Moose', };
 
 my $queried = {};
 
-my $instance = CPAN::Module::Resolver::Backend::Resolver::cpanmetadb->new(
+my $instance = CPAN::Module::Resolver::Backend::cpanmetadb->new(
   _backend_get => sub {
     my ($uri) = @_;
     $queried->{$uri}++;

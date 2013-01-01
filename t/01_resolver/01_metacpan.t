@@ -2,7 +2,7 @@
 use Test::More;
 use FindBin;
 
-use CPAN::Module::Resolver::Backend::Resolver::metacpan;
+use CPAN::Module::Resolver::Backend::metacpan;
 
 my $responses = {
   'http://api.metacpan.org/module/Moose'  => 'module_Moose',
@@ -11,7 +11,7 @@ my $responses = {
 
 my $queried = {};
 
-my $instance = CPAN::Module::Resolver::Backend::Resolver::metacpan->new(
+my $instance = CPAN::Module::Resolver::Backend::metacpan->new(
   _backend_get => sub {
     my ($uri) = @_;
     $queried->{$uri}++;

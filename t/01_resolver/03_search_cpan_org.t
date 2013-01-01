@@ -2,13 +2,13 @@
 use Test::More;
 use FindBin;
 
-use CPAN::Module::Resolver::Backend::Resolver::search_cpan_org;
+use CPAN::Module::Resolver::Backend::search_cpan_org;
 
 my $responses = { 'http://search.cpan.org/perldoc?Moose' => 'Moose', };
 
 my $queried = {};
 
-my $instance = CPAN::Module::Resolver::Backend::Resolver::search_cpan_org->new(
+my $instance = CPAN::Module::Resolver::Backend::search_cpan_org->new(
     _backend_get => sub {
         my ($uri) = @_;
         $queried->{$uri}++;
