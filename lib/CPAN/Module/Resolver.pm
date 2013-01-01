@@ -22,22 +22,6 @@ This module simply aims to unify all the different ways of doing it via one simp
 
 And this does a many things automatically to make life easier:
 
-=over 4
-
-=item * Automatically chooses from all available HTTP Methods, presently consisting of
-
-=over 6
-
-=item * LWP
-
-=item * wget
-
-=item * curl
-
-=item * HTTP::Tiny
-
-=back
-
 =item * Automatically uses available web services to query the results, using one of
 
 =over 6
@@ -68,7 +52,8 @@ use Moo;
 use Module::Runtime qw();
 use Carp qw( carp croak );
 use Scalar::Util qw( blessed );
-use Try::Tiny qw( try catch );
+use File::Fetch;
+
 use CPAN::Module::Resolver::BackendIterator;
 
 sub _array_ref { ref $_[0] eq 'ARRAY' or croak('must be an array ref') }
@@ -77,27 +62,44 @@ sub _hash_ref    { ref $_[0] eq 'HASH' or croak('must be a hash ref') }
 sub _blessed_ref { ref $_[0] and blessed( $_[0] ) or croak('must be an object') }
 
 has resolve_order => ( is => lazy =>, isa => \&_array_ref );
-has http_order    => ( is => lazy =>, isa => \&_array_ref );
 has resolve_args  => ( is => lazy =>, isa => \&_hash_ref );
-has http_args     => ( is => lazy =>, isa => \&_hash_ref );
-has _backend_http => ( is => lazy =>, isa => \&_blessed_ref );
-has _http_iterator    => ( is => lazy => isa => \&_blessed_ref );
 has _resolve_iterator => ( is => lazy => isa => \&_blessed_ref );
 
 sub _build_resolve_order { return [qw( cpanmetadb search_cpan_org )]; }
-sub _build_http_order    { return [qw( LWP wget curl HTTP::Tiny )] }
 sub _build_resolve_args { return {} }
-sub _build_http_args    { return {} }
 
-sub _build__http_iterator {
-  my ($self) = shift;
-  return CPAN::Module::Resolver::BackendIterator->new(
-    order          => $self->http_order,
-    args           => $self->http_args,
-    label          => 'http',
-    backend_prefix => 'CPAN::Module::Resolver::Backend',
-    backend_infix  => 'HTTP',
-  );
+sub _get {
+  my ($uri) = @_;
+  my $fetch = File::Fetch->new( uri => $uri );
+  if ( not $fetch ){
+  	warn "No object";
+	return;
+  }
+  my $output;
+  my $where = $fetch->fetch( to => \$output );
+  if ( my $error = $fetch->error(1) ) {
+    warn $error;
+    return;
+  }
+  return unless $where;
+  return unless $output;
+   return $output;
+}
+
+sub _mirror {
+  my ( $uri, $target ) = @_;
+  my $fetch = File::Fetch->new( uri => $uri );
+  if ( not $fetch ){
+  	warn "No object";
+	return;
+  }
+  my $where = $fetch->fetch( to => $target);
+  return unless $where;
+  if ( my $error = $fetch->error(1) ) {
+    warn $error;
+    return;
+  }
+  return 1;
 }
 
 sub _build__resolve_iterator {
@@ -106,18 +108,13 @@ sub _build__resolve_iterator {
     order       => $self->resolve_order,
     args        => $self->resolve_args,
     common_args => [
-      _backend_get    => sub { $self->_backend_http->get(@_) },
-      _backend_mirror => sub { $self->_backend_http->mirror(@_) },
+      _backend_get    => \&_get,
+      _backend_mirror => \&_mirror,
     ],
     label          => 'resolver',
     backend_prefix => 'CPAN::Module::Resolver::Backend',
     backend_infix  => 'Resolver',
   );
-}
-
-sub _build__backend_http {
-  my ($self) = shift;
-  return $self->_http_iterator->each_usable_backend( sub { return $_ } );
 }
 
 sub resolve {
