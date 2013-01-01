@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-package CPAN::Module::Resolver::Backend::Resolver::mirror;
+package CPAN::Module::Resolver::Backend::mirror;
 
 has mirror_uri => ( is => rwp => required => 1 );
 

@@ -15,22 +15,15 @@ sub _hash_ref { ref $_[0] eq 'HASH' or croak('must be a hash ref') }
 has order            => ( is => lazy =>, isa => \&_array_ref );
 has args             => ( is => lazy =>, isa => \&_hash_ref );
 has common_args      => ( is => lazy =>, isa => \&_array_ref );
-has _backend_infixed => ( is => lazy =>, isa => \&_module_name );
 
 has label          => ( is => rwp =>, required => 1 );
 has backend_prefix => ( is => rwp =>, required => 1, isa => \&_module_name );
-has backend_infix  => ( is => rwp =>, required => 1, isa => \&_module_name );
-
-sub _build__backend_infixed {
-  my ($self) = @_;
-  return Module::Runtime::compose_module_name( $self->backend_prefix, $self->backend_infix );
-}
 
 sub _build_common_args { [] }
 
 sub _expand_backend {
   my ( $self, $backend ) = @_;
-  return Module::Runtime::compose_module_name( $self->_backend_infixed, $backend );
+  return Module::Runtime::compose_module_name( $self->backend_prefix, $backend );
 }
 
 sub _load_backend {

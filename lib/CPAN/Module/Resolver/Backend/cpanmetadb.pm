@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-package CPAN::Module::Resolver::Backend::Resolver::cpanmetadb;
+package CPAN::Module::Resolver::Backend::cpanmetadb;
 
 # ABSTRACT: Resolve a module via the cpanmetadb
 

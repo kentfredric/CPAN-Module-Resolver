@@ -113,7 +113,6 @@ sub _build__resolve_iterator {
     ],
     label          => 'resolver',
     backend_prefix => 'CPAN::Module::Resolver::Backend',
-    backend_infix  => 'Resolver',
   );
 }
 

@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 
-package CPAN::Module::Resolver::Backend::Resolver::metacpan;
+package CPAN::Module::Resolver::Backend::metacpan;
 
 # ABSTRACT: Resolve a module via metacpan
 

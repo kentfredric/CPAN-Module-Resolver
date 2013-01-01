@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 
-package CPAN::Module::Resolver::Backend::Resolver::search_cpan_org;
+package CPAN::Module::Resolver::Backend::search_cpan_org;
 
 # ABSTRACT: Resolve a module via searching search.cpan.org
 
