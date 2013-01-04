@@ -9,7 +9,7 @@ my $responses = { 'http://search.cpan.org/perldoc?Moose' => 'Moose', };
 my $queried = {};
 
 my $instance = CPAN::Module::Resolver::Backend::search_cpan_org->new(
-    _backend_get => sub {
+    _get => sub {
         my ($uri) = @_;
         $queried->{$uri}++;
         if ( defined $responses->{$uri} ) {
@@ -21,10 +21,9 @@ my $instance = CPAN::Module::Resolver::Backend::search_cpan_org->new(
         }
         return;
     },
-    _backend_mirror => sub { },
+    _mirror => sub { },
 );
 
-ok( $instance->usable(), 'instance is usable' );
 
 my $result = $instance->resolve('Moose');
 

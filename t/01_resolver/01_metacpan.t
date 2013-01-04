@@ -12,7 +12,7 @@ my $responses = {
 my $queried = {};
 
 my $instance = CPAN::Module::Resolver::Backend::metacpan->new(
-  _backend_get => sub {
+  _get => sub {
     my ($uri) = @_;
     $queried->{$uri}++;
     if ( defined $responses->{$uri} ) {
@@ -24,10 +24,9 @@ my $instance = CPAN::Module::Resolver::Backend::metacpan->new(
     }
     return;
   },
-  _backend_mirror => sub { },
+  _mirror => sub { },
 );
 
-ok( $instance->usable(), 'instance is usable' );
 
 my $result = $instance->resolve('Moose');
 ok( $result, 'Got a result for query Moose' );
