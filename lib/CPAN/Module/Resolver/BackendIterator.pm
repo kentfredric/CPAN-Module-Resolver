@@ -20,6 +20,7 @@ has label          => ( is => rwp =>, required => 1 );
 has backend_prefix => ( is => rwp =>, required => 1, isa => \&_module_name );
 
 sub _build_common_args { [] }
+sub _build_args { {} }
 
 sub _expand_backend {
   my ( $self, $backend ) = @_;

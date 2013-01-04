@@ -53,60 +53,53 @@ use Module::Runtime qw();
 use Carp qw( carp croak );
 use Scalar::Util qw( blessed );
 use File::Fetch;
+use File::Temp;
 
 use CPAN::Module::Resolver::BackendIterator;
 
-sub _array_ref { ref $_[0] eq 'ARRAY' or croak('must be an array ref') }
-sub _module_name { Module::Runtime::check_module_name( $_[0] ) }
-sub _hash_ref    { ref $_[0] eq 'HASH' or croak('must be a hash ref') }
-sub _blessed_ref { ref $_[0] and blessed( $_[0] ) or croak('must be an object') }
+has order => ( is => lazy =>, isa => \&_array_ref );
+has _iterator => ( is => lazy => isa => \&_blessed_ref );
 
-has resolve_order => ( is => lazy =>, isa => \&_array_ref );
-has resolve_args  => ( is => lazy =>, isa => \&_hash_ref );
-has _resolve_iterator => ( is => lazy => isa => \&_blessed_ref );
+sub _build_order { return [qw( cpanmetadb search_cpan_org )]; }
 
-sub _build_resolve_order { return [qw( cpanmetadb search_cpan_org )]; }
-sub _build_resolve_args { return {} }
+my $tempdir;
+
+sub tempdir {
+  return $tempdir if $tempdir;
+  return $tempdir =
+    File::Temp::tempdir( 'CPAN_Module_Resolver.XXXX', CLEANUP => 1, DIR => File::Spec->rel2abs( File::Spec->tmpdir() ) );
+}
+
+sub _fetch {
+  my ($uri) = @_;
+  my $fetch = File::Fetch->new( uri => $uri );
+  my $where = $fetch->fetch( to => tempdir() );
+  my $error = $fetch->error();
+  return ( undef,  $error ) if $error;
+  return ( $where, undef )  if $where;
+  return ( undef,  "No Where returned" );
+}
 
 sub _get {
   my ($uri) = @_;
-  my $fetch = File::Fetch->new( uri => $uri );
-  if ( not $fetch ){
-  	warn "No object";
-	return;
-  }
-  my $output;
-  my $where = $fetch->fetch( to => \$output );
-  if ( my $error = $fetch->error(1) ) {
-    warn $error;
-    return;
-  }
-  return unless $where;
-  return unless $output;
-   return $output;
+  my ( $file, $error ) = _fetch($uri);
+  return if $error;
+  open my $fh, '<', $file;
+  local $/;
+  return <$fh>;
 }
 
 sub _mirror {
-  my ( $uri, $target ) = @_;
-  my $fetch = File::Fetch->new( uri => $uri );
-  if ( not $fetch ){
-  	warn "No object";
-	return;
-  }
-  my $where = $fetch->fetch( to => $target);
-  return unless $where;
-  if ( my $error = $fetch->error(1) ) {
-    warn $error;
-    return;
-  }
-  return 1;
+  my ( $uri,  $target ) = @_;
+  my ( $file, $error )  = _fetch($uri);
+  return $error if $error;
+  File::Copy::copy( $file, $target );
 }
 
-sub _build__resolve_iterator {
+sub _build__iterator {
   my $self = shift;
   return CPAN::Module::Resolver::BackendIterator->new(
-    order       => $self->resolve_order,
-    args        => $self->resolve_args,
+    order       => $self->order,
     common_args => [
       _backend_get    => \&_get,
       _backend_mirror => \&_mirror,
@@ -118,6 +111,12 @@ sub _build__resolve_iterator {
 
 sub resolve {
   my ( $self, $module ) = @_;
-  return $self->_resolve_iterator->each_usable_backend( sub { return $_->resolve($module) } );
+  return $self->_iterator->each_usable_backend( sub { return $_->resolve($module) } );
 }
+
+sub _array_ref { ref $_[0] eq 'ARRAY' or croak('must be an array ref') }
+sub _module_name { Module::Runtime::check_module_name( $_[0] ) }
+sub _hash_ref    { ref $_[0] eq 'HASH' or croak('must be a hash ref') }
+sub _blessed_ref { ref $_[0] and blessed( $_[0] ) or croak('must be an object') }
+
 1;
