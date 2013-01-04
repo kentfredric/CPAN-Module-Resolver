@@ -21,7 +21,7 @@ use Moo::Role;
 	}
 
 
-=carg _backend_get
+=carg _get
 
 Must be a C<CODEREF> that returns a string when given a URI.
 
@@ -34,13 +34,13 @@ Must be a C<CODEREF> that returns a string when given a URI.
 		...
 	);
 
-=pattr _backend_get
+=pattr _get
 
 =cut
 
-has _backend_get => ( is => rwp => required => 1 );
+has _get => ( is => rwp => required => 1 );
 
-=carg _backend_mirror
+=carg _mirror
 
 Must be a C<CODEREF> that copies a given URI to the specified local path.
 
@@ -54,11 +54,11 @@ Must be a C<CODEREF> that copies a given URI to the specified local path.
 	);
 
 
-=pattr _backend_mirror
+=pattr _mirror
 
 =cut
 
-has _backend_mirror => ( is => rwp => required => 1 );
+has _mirror => ( is => rwp => required => 1 );
 
 =rrequire resolve
 
@@ -74,22 +74,9 @@ has _backend_mirror => ( is => rwp => required => 1 );
 =back
 
 
-=rrequire usable
-
-	$backend->usable();
-
-=over 4
-
-=item * takes no arguments
-
-=item * must return true( defined nonzero ) or false( zero or undef )
-
-=back
-
 =cut
 
 requires resolve =>;
-requires usable  =>;
 
 =method get
 
@@ -105,7 +92,7 @@ Convenience method to call accessor-stored coderef in C<_backend_mirror>
 
 =cut
 
-sub get    { my $self = shift; $self->_backend_get->(@_) }
-sub mirror { my $self = shift; $self->_backend_mirror->(@_) }
+sub get    { my $self = shift; $self->_get->(@_) }
+sub mirror { my $self = shift; $self->_mirror->(@_) }
 
 1;

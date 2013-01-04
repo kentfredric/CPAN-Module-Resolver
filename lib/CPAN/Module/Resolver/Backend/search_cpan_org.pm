@@ -33,8 +33,6 @@ has base_uri => ( is => lazy => );
 sub _build_base_uri { return 'http://search.cpan.org/perldoc?%s' }
 sub _uri_for { my $self = shift; return sprintf $self->base_uri, @_ }
 sub _module_html { my $self = shift; return $self->get( $self->_uri_for(@_) ) }
-sub usable { 1 }
-
 sub resolve {
   my ( $self, $modname ) = @_;
 

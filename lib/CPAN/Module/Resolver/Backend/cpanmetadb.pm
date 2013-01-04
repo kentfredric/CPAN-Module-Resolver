@@ -28,13 +28,12 @@ use Moo;
 use Module::Runtime;
 use CPAN::Module::Resolver::Result;
 
+use # no sniff;
+	Parse::CPAN::Meta;
+
 with 'CPAN::Module::Resolver::Role::Resolver';
 
 has base_uri => ( is => lazy => );
-
-sub usable {
-  return eval { Module::Runtime::require_module('Parse::CPAN::Meta'); };
-}
 
 sub _parse_meta_string {
   my ( $self, $string ) = @_;

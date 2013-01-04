@@ -56,6 +56,7 @@ use CPAN::Module::Resolver::BackendIterator;
 
 has order => ( is => lazy =>, isa => \&_array_ref );
 
+has _backends         => ( is => lazy => isa => \&_array_ref );
 has _fetch_method     => ( is => lazy => isa => \&_code_ref );
 has _get_method       => ( is => lazy => isa => \&_code_ref );
 has _mirror_method    => ( is => lazy => isa => \&_code_ref );
@@ -63,7 +64,7 @@ has _tempdir          => ( is => lazy => isa => \&_scalar );
 has _tempdir_basedir  => ( is => lazy => isa => \&_scalar );
 has _tempdir_template => ( is => lazy => isa => \&_scalar );
 
-sub _build_order { return [qw( cpanmetadb search_cpan_org )]; }
+sub _build_order { return [qw( cpanmetadb metacpan search_cpan_org )]; }
 sub _build__tempdir { return File::Temp::tempdir( $_[0]->_tempdir_template, CLEANUP => 1, DIR => $_[0]->_tempdir_basedir ) }
 sub _build__tempdir_basedir  { return File::Spec->rel2abs( File::Spec->tmpdir() ) }
 sub _build__tempdir_template { return 'CPAN_Module_Resolver.XXXX' }
@@ -72,14 +73,14 @@ sub _build__fetch_method {
   my ( $self, ) = @_;
   return sub {
     my $fetch = File::Fetch->new( uri => $_[0] );
-	die unless defined $fetch;
-	
+    die unless defined $fetch;
+
     my $where = $fetch->fetch( to => $self->_tempdir() );
     my $error = $fetch->error();
     return ( undef,  $error ) if $error;
     return ( $where, undef )  if $where;
     return ( undef,  "No Where returned" );
-    };
+  };
 }
 
 sub _build__get_method {
@@ -102,25 +103,37 @@ sub _build__mirror {
     my $fetch_method = $self->_fetch_method();
     my ( $file, $error ) = $fetch_method->($uri);
     return $error if $error;
-	if ( $file  ne $target ) {
-	    require File::Copy;
-    	File::Copy::copy( $file, $target );
-	}
+    if ( $file ne $target ) {
+      require File::Copy;
+      File::Copy::copy( $file, $target );
+    }
   };
+}
+sub _build__backends {
+	my ($self, ) = @_;
+	my ( @out );
+	for my $backend ( @{ $self->order } ) {
+    	my $fqmn = Module::Runtime::compose_module_name( 'CPAN::Module::Resolver::Backend', $backend );
+	    next unless eval { Module::Runtime::require_module($fqmn) };
+    	my $instance = $fqmn->new(
+	      _get    => sub { goto $self->_get_method },
+    	  _mirror => sub { goto $self->_mirror_method },
+    	);
+		push @out, $instance;
+	}
+	return \@out;
 }
 
 sub resolve {
-  my ( $self, $module ) = @_;
-  for my $backend ( @{ $self->order } ) {
-    my $fqmn = Module::Runtime::compose_module_name( 'CPAN::Module::Resolver::Backend', $backend );
-    next unless eval { Module::Runtime::require_module($fqmn) };
-    my $intance = $fqmn->new(
-      _get    => sub { goto $self->_get_method },
-      _mirror => sub { goto $self->_mirror_method },
-    );
-  }
-  return $self->_iterator->each_usable_backend( sub { return $_->resolve($module) } );
+	my ( $self, $module ) = @_ ;
+	for my $backend ( @{ $self->_backends }) { 
+		if ( my $result = $backend->resolve($module) ){ 
+			return $result;
+		}
+	}
+	return;
 }
+
 
 sub _scalar { defined $_[0] and not ref $_[0] or croak('must be a scalar') }
 sub _array_ref { ref $_[0] eq 'ARRAY' or croak('must be an array ref') }

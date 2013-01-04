@@ -27,6 +27,8 @@ use Moo;
 use Try::Tiny;
 use Module::Runtime;
 use CPAN::Module::Resolver::Result;
+use # no sniff
+	JSON::PP;
 
 with 'CPAN::Module::Resolver::Role::Resolver';
 
@@ -52,10 +54,6 @@ sub _safe_decode {
 	Carp::carp($_);
 	return undef;
   }; 
-}
-
-sub usable {
-  return eval { Module::Runtime::require_module('JSON::PP'); };
 }
 
 sub resolve {
