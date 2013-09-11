@@ -36,7 +36,7 @@ use Class::Tiny (
     },
     cpan_author_id => sub {
       return unless $_[0]->dist_author;
-      return unless $_[0]->dist_author =~ /\A[A-Z]+\z/msx;
+      return unless $_[0]->dist_author =~ /\A\p{PosixUpper}+\z/msx;
       return $_[0]->dist_author;
     },
     cpan_author_path => sub {
