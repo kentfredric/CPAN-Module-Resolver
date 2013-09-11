@@ -34,6 +34,15 @@ This module is just a placeholder at present for shared code
 that will exist been multiple resolving tools I'm throwing together
 by looking at the `cpanm` code, stealing parts that are useful.
 
+=begin MetaPOD::JSON v1.1.0
+
+{
+    "namespace":"CPAN::Module::Resolver"
+}
+
+
+=end MetaPOD::JSON
+
 =head1 AUTHOR
 
 Kent Fredric <kentnl@cpan.org>

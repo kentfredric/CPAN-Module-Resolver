@@ -1,0 +1,12 @@
+strict digraph Perl {
+	graph [compound=1, concentrate=1, overlap=false, rankdir=LR, ranksep=1, smoothing=triangle, splines=spline];
+	node [label="\N", shape=record, style=dotted];
+	edge [minlen=1];
+	"CPAN::Module::Resolver" [label="<port1> CPAN::Module::Resolver"];
+	"CPAN::Module::Resolver::Lookup" [label="{{<port1> class}|<port2> CPAN::Module::Resolver::Lookup}", shape=Mrecord, style=solid, color="#7e1e9c", fontsize=7, height="0.1"];
+	"CPAN::Module::Resolver::Result" [label="{{<port1> class}|<port2> CPAN::Module::Resolver::Result}", shape=Mrecord, style=solid, color="#7e1e9c", fontsize=7, height="0.1"];
+	"CPAN::Module::Resolver::Role::Resolver" [label="{{<port1> role}|<port2> CPAN::Module::Resolver::Role::Resolver}", shape=Mrecord, style=solid, color="#15b01a", fontsize=7, height="0.1"];
+	"Class::Tiny::Object" [label="<port1> Class::Tiny::Object"];
+	"Class::Tiny::Object" -> "CPAN::Module::Resolver::Lookup" [arrowhead=open, arrowsize="0.5", color="#ff81c0", dir=forward, fontsize=6, headclip=1, label="inherited by", samehead=head, tailclip=1, weight=10];
+	"Class::Tiny::Object" -> "CPAN::Module::Resolver::Result" [arrowhead=open, arrowsize="0.5", color="#ff81c0", dir=forward, fontsize=6, headclip=1, label="inherited by", samehead=head, tailclip=1, weight=10];
+}

@@ -12,6 +12,7 @@ BEGIN {
 
 # ABSTRACT: An interface for module resolving for CPAN::Module::Resolver
 
+
 use Role::Tiny;
 
 requires 'usable';         # If the class is generally usable
@@ -33,6 +34,16 @@ CPAN::Module::Resolver::Role::Resolver - An interface for module resolving for C
 =head1 VERSION
 
 version 0.1.0
+
+=begin MetaPOD::JSON v1.1.0
+
+{
+    "namespace":"CPAN::Module::Resolver::Role::Resolver",
+    "interface":"role"
+}
+
+
+=end MetaPOD::JSON
 
 =head1 AUTHOR
 
