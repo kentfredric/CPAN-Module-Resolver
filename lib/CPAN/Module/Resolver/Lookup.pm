@@ -14,7 +14,9 @@ BEGIN {
 
 
 
+
 use Class::Tiny (qw( module )), {};
+
 
 sub latest_by_module {
   return $_[0]->new( module => $_[1] );
@@ -40,6 +42,16 @@ version 0.1.0
 
     my $lookup = CPAN::Module::Resolver::Lookup->latest_by_module('Moose');
     my $result = SOME_LOOKUP_ENGINE->resolve($lookup);
+
+=head1 METHODS
+
+=head2 C<latest_by_module>
+
+    my $instance = ::Lookup->latest_by_module('Moose');
+
+=head1 ATTRIBUTES
+
+=head2 C<module>
 
 =begin MetaPOD::JSON v1.1.0
 
