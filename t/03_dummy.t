@@ -4,8 +4,8 @@ use warnings;
 
 use Test::More;
 use lib 't/tlib';
-use InstanceTests;
 
+use_ok('InstanceTests');
 use_ok('CPAN::Module::Resolver::Dummy');
 use_ok('CPAN::Module::Resolver::Lookup');
 
