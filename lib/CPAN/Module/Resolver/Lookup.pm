@@ -1,7 +1,7 @@
 
 use strict;
 use warnings;
- 
+
 package CPAN::Module::Resolver::Lookup;
 BEGIN {
   $CPAN::Module::Resolver::Lookup::AUTHORITY = 'cpan:KENTNL';
@@ -10,16 +10,14 @@ BEGIN {
   $CPAN::Module::Resolver::Lookup::VERSION = '0.1.0';
 }
 
-
 # ABSTRACT: A container for a lookup query
-
 
 
 
 use Class::Tiny (qw( module )), {};
 
 sub latest_by_module {
-    return $_[0]->new( module => $_[1] );
+  return $_[0]->new( module => $_[1] );
 }
 
 1;
