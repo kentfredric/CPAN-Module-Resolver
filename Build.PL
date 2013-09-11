@@ -34,7 +34,6 @@ my %module_build_args = (
     "Data::Dumper" => 0,
     "IO::Handle" => 0,
     "IPC::Open3" => 0,
-    "InstanceTests" => 0,
     "Role::Tiny::With" => 0,
     "Scalar::Util" => 0,
     "Test::More" => "0.98",

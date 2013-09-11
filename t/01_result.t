@@ -4,8 +4,8 @@ use warnings;
 
 use Test::More;
 use lib 't/tlib';
-use InstanceTests;
 
+use_ok('InstanceTests');
 my $class = 'CPAN::Module::Resolver::Result';
 use_ok($class);
 
