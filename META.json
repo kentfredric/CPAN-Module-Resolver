@@ -1,5 +1,5 @@
 {
-   "abstract" : "Resolve module names to the dists they are contained in",
+   "abstract" : "Resolve module names to the distributions they are contained in",
    "author" : [
       "Kent Fredric <kentnl@cpan.org>"
    ],

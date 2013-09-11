@@ -10,7 +10,7 @@ BEGIN {
   $CPAN::Module::Resolver::Lookup::VERSION = '0.1.0';
 }
 
-# ABSTRACT: A container for a lookup query
+# ABSTRACT: A container for a C<look-up> query
 
 
 
@@ -30,7 +30,7 @@ __END__
 
 =head1 NAME
 
-CPAN::Module::Resolver::Lookup - A container for a lookup query
+CPAN::Module::Resolver::Lookup - A container for a C<look-up> query
 
 =head1 VERSION
 

@@ -9,7 +9,7 @@ BEGIN {
   $CPAN::Module::Resolver::VERSION = '0.1.0';
 }
 
-# ABSTRACT: Resolve module names to the dists they are contained in
+# ABSTRACT: Resolve module names to the distributions they are contained in
 
 
 1;
@@ -22,7 +22,7 @@ __END__
 
 =head1 NAME
 
-CPAN::Module::Resolver - Resolve module names to the dists they are contained in
+CPAN::Module::Resolver - Resolve module names to the distributions they are contained in
 
 =head1 VERSION
 

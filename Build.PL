@@ -12,7 +12,7 @@ my %module_build_args = (
   "configure_requires" => {
     "Module::Build" => "0.4007"
   },
-  "dist_abstract" => "Resolve module names to the dists they are contained in",
+  "dist_abstract" => "Resolve module names to the distributions they are contained in",
   "dist_author" => [
     "Kent Fredric <kentnl\@cpan.org>"
   ],

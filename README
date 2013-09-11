@@ -1,6 +1,6 @@
 NAME
-    CPAN::Module::Resolver - Resolve module names to the dists they are
-    contained in
+    CPAN::Module::Resolver - Resolve module names to the distributions they
+    are contained in
 
 VERSION
     version 0.1.0

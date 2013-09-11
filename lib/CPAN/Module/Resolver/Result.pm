@@ -9,7 +9,7 @@ BEGIN {
   $CPAN::Module::Resolver::Result::VERSION = '0.1.0';
 }
 
-# ABSTRACT: A container for a lookup result
+# ABSTRACT: A container for a C<look-up> result
 
 
 # Terms: KENTNL/MX-H-Foo-1.203.tar.gz
@@ -76,7 +76,7 @@ __END__
 
 =head1 NAME
 
-CPAN::Module::Resolver::Result - A container for a lookup result
+CPAN::Module::Resolver::Result - A container for a C<look-up> result
 
 =head1 VERSION
 
