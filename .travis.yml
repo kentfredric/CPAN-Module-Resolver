@@ -6,6 +6,11 @@ perl:
   - "5.19"
 before_install:
   - perl ./maint-travis-ci/sterilize_env.pl
+script:
+  - perl ./Build.PL
+  - ./Build
+  - ./Build test
+  - prove -lvr xt/
 branches:
   only:
     - "build/master"
