@@ -16,11 +16,15 @@ $class->instance_test(
   [] => sub {
     my $resolver = shift;
     $resolver->call_ok( 'usable', [] );
-    $resolver->call_ok( 'can_resolve', [ $lookup ] );
-    $resolver->method_test( 'resolve', [ $lookup ] , sub {
-      my $result =  shift;
-       isa_ok(  $result, 'CPAN::Module::Resolver::Result');
-    });
+    $resolver->call_ok( 'can_resolve', [$lookup] );
+    $resolver->method_test(
+      'resolve',
+      [$lookup],
+      sub {
+        my $result = shift;
+        isa_ok( $result, 'CPAN::Module::Resolver::Result' );
+      }
+    );
   }
 );
 done_testing;

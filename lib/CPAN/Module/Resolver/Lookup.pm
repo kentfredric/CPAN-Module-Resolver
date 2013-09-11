@@ -1,9 +1,8 @@
 
 use strict;
 use warnings;
- 
-package CPAN::Module::Resolver::Lookup;
 
+package CPAN::Module::Resolver::Lookup;
 
 # ABSTRACT: A container for a lookup query
 
@@ -19,7 +18,6 @@ package CPAN::Module::Resolver::Lookup;
 
 =cut
 
-
 =head1 SYNOPSIS
 
     my $lookup = CPAN::Module::Resolver::Lookup->latest_by_module('Moose');
@@ -30,7 +28,7 @@ package CPAN::Module::Resolver::Lookup;
 use Class::Tiny (qw( module )), {};
 
 sub latest_by_module {
-    return $_[0]->new( module => $_[1] );
+  return $_[0]->new( module => $_[1] );
 }
 
 1;

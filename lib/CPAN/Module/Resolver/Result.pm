@@ -17,7 +17,6 @@ package CPAN::Module::Resolver::Result;
 
 =cut
 
-
 # Terms: KENTNL/MX-H-Foo-1.203.tar.gz
 #--------------------------------------
 #        | -- | dist_author = KENTNL
@@ -48,8 +47,8 @@ use Class::Tiny (
     cpan_author_path => sub {
       return unless $_[0]->cpan_author_id;
       return sprintf '%s/%s/%s',
-        ( substr  $_[0]->cpan_author_id , 0, 1  ),
-        ( substr  $_[0]->cpan_author_id , 0, 2 ),
+        ( substr $_[0]->cpan_author_id, 0, 1 ),
+        ( substr $_[0]->cpan_author_id, 0, 2 ),
         $_[0]->cpan_author_id;
     },
     cpan_dist_dir => sub {
@@ -67,7 +66,7 @@ use Class::Tiny (
       return sprintf "%s/%s", $_[0]->cpan_mirror, $_[0]->cpan_path;
     },
     dist_extension => sub {
-       return 'tar.gz';
+      return 'tar.gz';
     },
   }
 );
