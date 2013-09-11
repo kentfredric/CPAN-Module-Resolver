@@ -4,7 +4,7 @@ use warnings;
 
 package CPAN::Module::Resolver::Lookup;
 
-# ABSTRACT: A container for a lookup query
+# ABSTRACT: A container for a C<look-up> query
 
 =begin MetaPOD::JSON v1.1.0
 

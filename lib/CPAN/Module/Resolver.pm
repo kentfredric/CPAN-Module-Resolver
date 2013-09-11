@@ -3,7 +3,7 @@ use warnings;
 
 package CPAN::Module::Resolver;
 
-# ABSTRACT: Resolve module names to the dists they are contained in
+# ABSTRACT: Resolve module names to the distributions they are contained in
 
 =begin MetaPOD::JSON v1.1.0
 

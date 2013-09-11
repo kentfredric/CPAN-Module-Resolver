@@ -3,7 +3,7 @@ use warnings;
 
 package CPAN::Module::Resolver::Result;
 
-# ABSTRACT: A container for a lookup result
+# ABSTRACT: A container for a C<look-up> result
 
 =begin MetaPOD::JSON v1.1.0
 
@@ -41,7 +41,7 @@ use Class::Tiny (
     },
     cpan_author_id => sub {
       return unless $_[0]->dist_author;
-      return unless $_[0]->dist_author =~ /\A[A-Z]+\z/msx;
+      return unless $_[0]->dist_author =~ /\A\p{PosixUpper}+\z/msx;
       return $_[0]->dist_author;
     },
     cpan_author_path => sub {
@@ -54,16 +54,16 @@ use Class::Tiny (
     cpan_dist_dir => sub {
       return unless $_[0]->cpan_author_path;
       return $_[0]->cpan_author_path unless $_[0]->cpan_dir;
-      return sprintf "%s/%s", $_[0]->cpan_author_path, $_[0]->cpan_dir;
+      return sprintf '%s/%s', $_[0]->cpan_author_path, $_[0]->cpan_dir;
     },
     cpan_path => sub {
       return unless $_[0]->cpan_dist_dir;
       return unless $_[0]->dist_filename;
-      return sprintf "%s/%s", $_[0]->cpan_dist_dir, $_[0]->dist_filename;
+      return sprintf '%s/%s', $_[0]->cpan_dist_dir, $_[0]->dist_filename;
     },
     dist_uri => sub {
       return unless $_[0]->cpan_path and $_[0]->cpan_mirror;
-      return sprintf "%s/%s", $_[0]->cpan_mirror, $_[0]->cpan_path;
+      return sprintf '%s/%s', $_[0]->cpan_mirror, $_[0]->cpan_path;
     },
     dist_extension => sub {
       return 'tar.gz';
