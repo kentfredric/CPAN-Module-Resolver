@@ -12,14 +12,8 @@ BEGIN {
 # ABSTRACT: A container for a C<look-up> result
 
 
-# Terms: KENTNL/MX-H-Foo-1.203.tar.gz
-#--------------------------------------
-#        | -- | dist_author = KENTNL
-#              | ----- |  dist_name = MX-H-Foo
-#                        | -- | dist_version = 1.203
-#                              | --- | dist_extension = tar.gz
-#
-#
+
+
 use Class::Tiny (
   'module',
   'dist_author',
@@ -82,6 +76,8 @@ CPAN::Module::Resolver::Result - A container for a C<look-up> result
 =head1 VERSION
 
 version 0.1.0
+
+=head1 SYNOPSIS
 
 =head1 ATTRIBUTES
 
@@ -186,6 +182,45 @@ This defaults to C<tar.gz>
 
 
 =end MetaPOD::JSON
+
+=head1 TERMINOLOGY
+
+    A = cpan_author_id
+    B = dist_name
+    C = dist_version
+    D = dist_extension
+    E = cpan_dir
+    F = cpan_author_path
+    G = cpan_dist_dir
+    H = dist_filename
+    I = cpan_mirror
+    J = dist_uri
+
+    KENTNL/MX-H-Foo-1.203.tar.gz
+    AAAAAA/HHHHHHHHHHHHHHHHHHHHH
+    AAAAAA/BBBBBBBB-CCCCC.DDDDDD
+
+    KENTNL/foo/MX-H-Foo-1.203.tar.gz
+    AAAAAA/EEE/HHHHHHHHHHHHHHHHHHHHH
+    AAAAAA/EEE/BBBBBBBB-CCCCC.DDDDDD
+
+    K/KE/KENTNL/foo/MX-H-Foo-1.203.tar.gz
+    GGGGGGGGGGGGGGG/HHHHHHHHHHHHHHHHHHHHH
+    FFFFFFFFFFF/EEE/BBBBBBBB-CCCCC.DDDDDD
+     /  /AAAAAA/EEE/BBBBBBBB-CCCCC.DDDDDD
+    
+    http://cpan.metacpan.org/authors/id/K/KE/KENTNL/foo/MX-H-Foo-1.203.tar.gz
+    JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ
+    IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII/GGGGGGGGGGGGGGG/HHHHHHHHHHHHHHHHHHHHH
+
+You get the idea right?
+
+Though thats not to say you have to provide all, or any of the above, just provide what makes sense.
+
+If a request lookup can produce a C<dist_uri> without needing to be passed a I<cpan_mirror>,
+or if your dist resolver has a download URL that doesn't mimic cpan, just pass as much as you have.
+
+End users are to deal with handling what happens when a result as an C<undef> property.
 
 =head1 AUTHOR
 
