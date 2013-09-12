@@ -25,7 +25,17 @@ package CPAN::Module::Resolver::Lookup;
 
 =cut
 
+=attr C<module>
+
+=cut
+
 use Class::Tiny (qw( module )), {};
+
+=method C<latest_by_module>
+
+    my $instance = ::Lookup->latest_by_module('Moose');
+
+=cut
 
 sub latest_by_module {
   return $_[0]->new( module => $_[1] );
