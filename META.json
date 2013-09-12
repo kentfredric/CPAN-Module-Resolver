@@ -256,7 +256,7 @@
                }
             },
             "name" : "@Author::KENTNL/Test::Compile",
-            "version" : "2.029"
+            "version" : "2.030"
          },
          {
             "class" : "Dist::Zilla::Plugin::Test::Perl::Critic",

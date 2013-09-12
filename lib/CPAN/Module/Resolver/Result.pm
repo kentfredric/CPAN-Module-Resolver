@@ -164,7 +164,7 @@ e.g.
 An absolute URI that can be used to fetch the distribution.
 
 If L<< C<cpan_mirror>|/cpan_mirror >> is specified, then this value can be automatically
-determined from combining L<< C<cpan_mirror>|/cpan_mirror >> and L<< C<cpan_path>|/cpan_path >> 
+determined from combining L<< C<cpan_mirror>|/cpan_mirror >> and L<< C<cpan_path>|/cpan_path >>
 
 =head2 C<dist_extension>
 
@@ -208,7 +208,7 @@ This defaults to C<tar.gz>
     GGGGGGGGGGGGGGG/HHHHHHHHHHHHHHHHHHHHH
     FFFFFFFFFFF/EEE/BBBBBBBB-CCCCC.DDDDDD
      /  /AAAAAA/EEE/BBBBBBBB-CCCCC.DDDDDD
-    
+
     http://cpan.metacpan.org/authors/id/K/KE/KENTNL/foo/MX-H-Foo-1.203.tar.gz
     JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ
     IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII/GGGGGGGGGGGGGGG/HHHHHHHHHHHHHHHHHHHHH
